@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Featured Projects — Brighton D</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="base.css">
+</head>
+<body>
+
+<header>
+  <nav class="wrap">
+    <a href="index.html" class="nav-mark">brighton<span>.d</span></a>
+        <ul class="nav-links">
+      <li><a href="about.html">About</a></li>
+      <li><a href="projects.html" class="active">Projects</a></li>
+      <li><a href="research.html">Research</a></li>
+      <li><a href="publications.html">Publications</a></li>
+      <li><a href="notebook.html">Notebook</a></li>
+      <li class="nav-dropdown">
+        <a href="gallery.html">Lab</a>
+        <div class="nav-dropdown-menu">
+          <a href="gallery.html">Architecture Gallery</a>
+          <a href="visualizations.html">Interactive Visualizations</a>
+        </div>
+      </li>
+      <li><a href="skills.html">Skills</a></li>
+      <li><a href="resume.html">Resume</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+  </nav>
+</header>
+
+<div class="wrap crumb"><a href="index.html">Home</a> / Featured Projects</div>
+
+<main>
+
+  <section class="wrap page-header">
+    <div class="page-eyebrow">Featured Projects</div>
+    <h1 class="page-title">Three systems, built end to end.</h1>
+    <p class="page-sub">
+      What I shipped at Rangsons Aerospace — architecture, team, and outcome for each. For the
+      research angle behind these, see the <a href="research.html" style="color:var(--accent);">Research</a> page.
+    </p>
+  </section>
+
+  <section id="projects" class="wrap" style="padding-top:0; border-top:none;">
+
+    <div class="proj-group-label">
+      <span class="tick"></span>
+      <h3>At Rangsons Aerospace <span class="org">· RAPL, Sep 2025 — Present</span></h3>
+    </div>
+
+    <div class="project-card">
+      <div class="proj-top">
+        <span class="proj-title">Enterprise Agentic RAG Platform</span>
+        <span class="proj-tag agentic">Tech Lead · Agentic AI</span>
+      </div>
+      <div class="proj-role">Role — <span class="role-val">Architected &amp; led a team of 5</span></div>
+      <p class="proj-desc">
+        Architected and led the build of a functional prototype for a hybrid enterprise platform
+        using agentic RAG to analyze data across multiple formats and sources — documents, structured
+        records, and mixed inputs — and surface meaningful insights through agent-driven retrieval
+        and reasoning. Built as a containerized microservices architecture, with each service —
+        ingestion, retrieval, and each modality's model — running in its own Docker container.
+      </p>
+      <p style="font-size:13px; color:var(--ink-faint); margin-top:-8px; margin-bottom:16px;">
+        Built with AI-assisted development while actively learning agentic RAG and LLM orchestration —
+        first hands-on system in this space, led alongside deep CV research background.
+      </p>
+      <div class="proj-stack">
+        <span class="stack-pill">Agentic RAG</span>
+        <span class="stack-pill">Python</span>
+        <span class="stack-pill">Docker</span>
+        <span class="stack-pill">Microservices</span>
+        <span class="stack-pill">Team of 5</span>
+      </div>
+      <div class="proj-diagram">
+        <svg viewBox="0 0 640 300" xmlns="http://www.w3.org/2000/svg" role="img">
+          <title>Agentic RAG platform — containerized services</title>
+          <desc>A Docker-based microservices architecture where ingestion, retrieval, and each data modality's model run as separate containers, feeding shared storage and producing insights.</desc>
+          <defs>
+            <marker id="a1" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M2 1L8 5L2 9" fill="none" stroke="#5FA8D3" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </marker>
+          </defs>
+
+          <rect x="16" y="16" width="608" height="220" rx="8" fill="none" stroke="#262A2E" stroke-width="1" stroke-dasharray="4 3"/>
+          <text x="30" y="34" font-family="JetBrains Mono, monospace" font-size="10.5" letter-spacing="0.06em" fill="#5C5F5B">DOCKER HOST</text>
+
+          <rect x="32" y="46" width="576" height="40" rx="5" fill="rgba(95,168,211,0.08)" stroke="#5FA8D3" stroke-width="1"/>
+          <text x="320" y="70" text-anchor="middle" font-family="Inter, sans-serif" font-size="12.5" font-weight="600" fill="#EAE7DE">Ingestion container</text>
+
+          <line x1="320" y1="86" x2="320" y2="106" stroke="#5FA8D3" stroke-width="1" marker-end="url(#a1)"/>
+
+          <g font-family="Inter, sans-serif" font-size="11.5" fill="#E0A458">
+            <rect x="32" y="108" width="136" height="40" rx="5" fill="rgba(224,164,88,0.08)" stroke="#E0A458" stroke-width="1"/>
+            <text x="100" y="132" text-anchor="middle">Text container</text>
+
+            <rect x="176" y="108" width="136" height="40" rx="5" fill="rgba(224,164,88,0.08)" stroke="#E0A458" stroke-width="1"/>
+            <text x="244" y="132" text-anchor="middle">Image container</text>
+
+            <rect x="320" y="108" width="136" height="40" rx="5" fill="rgba(224,164,88,0.08)" stroke="#E0A458" stroke-width="1"/>
+            <text x="388" y="132" text-anchor="middle">Audio container</text>
+
+            <rect x="464" y="108" width="144" height="40" rx="5" fill="rgba(224,164,88,0.08)" stroke="#E0A458" stroke-width="1"/>
+            <text x="536" y="132" text-anchor="middle">Video container</text>
+          </g>
+
+          <line x1="100" y1="148" x2="100" y2="166" stroke="#E0A458" stroke-width="1" marker-end="url(#a1)"/>
+          <line x1="244" y1="148" x2="244" y2="166" stroke="#E0A458" stroke-width="1" marker-end="url(#a1)"/>
+          <line x1="388" y1="148" x2="388" y2="166" stroke="#E0A458" stroke-width="1" marker-end="url(#a1)"/>
+          <line x1="536" y1="148" x2="536" y2="166" stroke="#E0A458" stroke-width="1" marker-end="url(#a1)"/>
+
+          <rect x="32" y="168" width="576" height="40" rx="5" fill="rgba(183,154,224,0.10)" stroke="#B79AE0" stroke-width="1"/>
+          <text x="320" y="192" text-anchor="middle" font-family="Inter, sans-serif" font-size="12.5" font-weight="600" fill="#EAE7DE">Retrieval &amp; reasoning container</text>
+
+          <line x1="320" y1="236" x2="320" y2="256" stroke="#5FA8D3" stroke-width="1" marker-end="url(#a1)"/>
+
+          <rect x="220" y="258" width="200" height="34" rx="5" fill="rgba(95,168,211,0.08)" stroke="#5FA8D3" stroke-width="1"/>
+          <text x="320" y="279" text-anchor="middle" font-family="Inter, sans-serif" font-size="12.5" font-weight="600" fill="#EAE7DE">Insights</text>
+        </svg>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <div class="proj-top">
+        <span class="proj-title">TrainForge AI — Detection Training Platform</span>
+        <span class="proj-tag systems">Tech Lead · Systems</span>
+      </div>
+      <div class="proj-role">Role — <span class="role-val">Leading a team of 5</span> · <span style="color:var(--warm);">bug-fix phase</span></div>
+      <p class="proj-desc">
+        Leading the build of TrainForge AI, a platform to train multiple object detection models
+        end-to-end — covering dataset creation, annotation, model registration, training, and
+        inferencing — so research teams can go from raw imagery to a deployed model without leaving
+        the platform.
+      </p>
+      <div class="proj-stack">
+        <span class="stack-pill">Python</span>
+        <span class="stack-pill">PyTorch</span>
+        <span class="stack-pill">Dataset annotation</span>
+        <span class="stack-pill">Model registry</span>
+        <span class="stack-pill">Inferencing</span>
+        <span class="stack-pill">Team of 5</span>
+      </div>
+      <div class="proj-diagram">
+        <svg viewBox="0 0 640 160" xmlns="http://www.w3.org/2000/svg" role="img">
+          <title>TrainForge AI pipeline</title>
+          <desc>A linear pipeline: dataset creation flows to annotation, then training, then model registry, then inferencing.</desc>
+          <defs>
+            <marker id="a2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M2 1L8 5L2 9" fill="none" stroke="#5FA8D3" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </marker>
+          </defs>
+          <g font-family="Inter, sans-serif">
+            <rect x="10" y="46" width="112" height="56" rx="6" fill="rgba(95,168,211,0.08)" stroke="#5FA8D3" stroke-width="1"/>
+            <text x="66" y="70" text-anchor="middle" font-size="13" font-weight="600" fill="#EAE7DE">Dataset</text>
+            <text x="66" y="87" text-anchor="middle" font-size="11" fill="#9A9C97">Creation</text>
+
+            <line x1="122" y1="74" x2="146" y2="74" stroke="#5FA8D3" stroke-width="1" marker-end="url(#a2)"/>
+
+            <rect x="148" y="46" width="112" height="56" rx="6" fill="rgba(95,168,211,0.08)" stroke="#5FA8D3" stroke-width="1"/>
+            <text x="204" y="70" text-anchor="middle" font-size="13" font-weight="600" fill="#EAE7DE">Annotation</text>
+            <text x="204" y="87" text-anchor="middle" font-size="11" fill="#9A9C97">Labeling</text>
+
+            <line x1="260" y1="74" x2="284" y2="74" stroke="#5FA8D3" stroke-width="1" marker-end="url(#a2)"/>
+
+            <rect x="286" y="46" width="112" height="56" rx="6" fill="rgba(224,164,88,0.08)" stroke="#E0A458" stroke-width="1"/>
+            <text x="342" y="70" text-anchor="middle" font-size="13" font-weight="600" fill="#EAE7DE">Training</text>
+            <text x="342" y="87" text-anchor="middle" font-size="11" fill="#9A9C97">Multi-model</text>
+
+            <line x1="398" y1="74" x2="422" y2="74" stroke="#5FA8D3" stroke-width="1" marker-end="url(#a2)"/>
+
+            <rect x="424" y="46" width="112" height="56" rx="6" fill="rgba(183,154,224,0.10)" stroke="#B79AE0" stroke-width="1"/>
+            <text x="480" y="70" text-anchor="middle" font-size="13" font-weight="600" fill="#EAE7DE">Registry</text>
+            <text x="480" y="87" text-anchor="middle" font-size="11" fill="#9A9C97">Versioning</text>
+
+            <line x1="536" y1="74" x2="560" y2="74" stroke="#5FA8D3" stroke-width="1" marker-end="url(#a2)"/>
+
+            <rect x="562" y="46" width="68" height="56" rx="6" fill="rgba(95,168,211,0.08)" stroke="#5FA8D3" stroke-width="1"/>
+            <text x="596" y="70" text-anchor="middle" font-size="13" font-weight="600" fill="#EAE7DE">Infer</text>
+            <text x="596" y="87" text-anchor="middle" font-size="11" fill="#9A9C97">-ence</text>
+          </g>
+          <text x="320" y="130" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11" fill="#5C5F5B">Raw imagery in → deployed model out, without leaving the platform</text>
+        </svg>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <div class="proj-top">
+        <span class="proj-title">Hybrid Oriented Object Detection</span>
+        <span class="proj-tag cv">Individual · Aerospace &amp; Defence</span>
+      </div>
+      <div class="proj-role">Role — <span class="role-val">Sole contributor</span>, on-site at client location</div>
+      <p class="proj-desc">
+        Investigated and delivered a hybrid object detection approach for arbitrarily oriented objects
+        in aerial and remote sensing imagery, achieving 78%+ mAP on a custom dataset of 16K+ images
+        across 18 object classes. Authored two publishable research manuscripts as client technical
+        deliverables.
+      </p>
+      <div class="proj-stack">
+        <span class="stack-pill">PyTorch</span>
+        <span class="stack-pill">MMRotate</span>
+        <span class="stack-pill">CUDA</span>
+        <span class="stack-pill">Remote sensing</span>
+      </div>
+      <div class="proj-metric">78%+ mAP · 2 research manuscripts</div>
+      <div class="proj-diagram">
+        <svg viewBox="0 0 640 320" xmlns="http://www.w3.org/2000/svg" role="img">
+          <title>Oriented object detection illustration</title>
+          <desc>An abstract aerial scene showing arbitrarily rotated objects each enclosed by a rotated bounding box, illustrating oriented object detection versus axis-aligned detection.</desc>
+
+          <rect x="20" y="20" width="600" height="280" rx="6" fill="#0F1214" stroke="#262A2E" stroke-width="1"/>
+
+          <line x1="20" y1="90" x2="620" y2="90" stroke="#1A1D20" stroke-width="1"/>
+          <line x1="20" y1="160" x2="620" y2="160" stroke="#1A1D20" stroke-width="1"/>
+          <line x1="20" y1="230" x2="620" y2="230" stroke="#1A1D20" stroke-width="1"/>
+          <line x1="170" y1="20" x2="170" y2="300" stroke="#1A1D20" stroke-width="1"/>
+          <line x1="320" y1="20" x2="320" y2="300" stroke="#1A1D20" stroke-width="1"/>
+          <line x1="470" y1="20" x2="470" y2="300" stroke="#1A1D20" stroke-width="1"/>
+
+          <g transform="translate(120,70) rotate(28)">
+            <rect x="-32" y="-14" width="64" height="28" rx="3" fill="#1A1D20" stroke="#5C5F5B" stroke-width="1"/>
+          </g>
+          <g transform="translate(120,70) rotate(28)">
+            <rect x="-40" y="-20" width="80" height="40" fill="none" stroke="#E0A458" stroke-width="1.5"/>
+          </g>
+
+          <g transform="translate(280,130) rotate(-15)">
+            <rect x="-26" y="-46" width="52" height="92" rx="3" fill="#1A1D20" stroke="#5C5F5B" stroke-width="1"/>
+          </g>
+          <g transform="translate(280,130) rotate(-15)">
+            <rect x="-34" y="-54" width="68" height="108" fill="none" stroke="#E0A458" stroke-width="1.5"/>
+          </g>
+
+          <g transform="translate(430,90) rotate(52)">
+            <rect x="-30" y="-16" width="60" height="32" rx="3" fill="#1A1D20" stroke="#5C5F5B" stroke-width="1"/>
+          </g>
+          <g transform="translate(430,90) rotate(52)">
+            <rect x="-38" y="-24" width="76" height="48" fill="none" stroke="#E0A458" stroke-width="1.5"/>
+          </g>
+
+          <g transform="translate(540,190) rotate(-38)">
+            <rect x="-22" y="-38" width="44" height="76" rx="3" fill="#1A1D20" stroke="#5C5F5B" stroke-width="1"/>
+          </g>
+          <g transform="translate(540,190) rotate(-38)">
+            <rect x="-30" y="-46" width="60" height="92" fill="none" stroke="#E0A458" stroke-width="1.5"/>
+          </g>
+
+          <g transform="translate(220,250) rotate(10)">
+            <rect x="-28" y="-15" width="56" height="30" rx="3" fill="#1A1D20" stroke="#5C5F5B" stroke-width="1"/>
+          </g>
+          <g transform="translate(220,250) rotate(10)">
+            <rect x="-36" y="-23" width="72" height="46" fill="none" stroke="#E0A458" stroke-width="1.5"/>
+          </g>
+
+          <text x="290" y="118" font-family="JetBrains Mono, monospace" font-size="10.5" fill="#E0A458" opacity="0.85" transform="rotate(-15,290,118)">θ</text>
+
+          <text x="320" y="290" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" fill="#5C5F5B">Rotated bounding boxes track true object orientation — not just axis-aligned extent</text>
+        </svg>
+      </div>
+    </div>
+
+  </section>
+
+</main>
+
+<footer id="contact">
+  <div class="wrap">
+    <div class="footer-name">Let's build something.</div>
+    <div class="footer-links">
+      <a href="mailto:bright851999@gmail.com">bright851999@gmail.com</a>
+      <a href="https://github.com/BrightonDJ" target="_blank" rel="noopener">GitHub ↗</a>
+      <a href="tel:9986825798">+91 99868 25798</a>
+      <a href="https://www.linkedin.com/in/brighton-d-1455b8153" target="_blank" rel="noopener">LinkedIn ↗</a>
+    </div>
+    <div class="footer-note">Tamil (native) · English (proficient)</div>
+  </div>
+</footer>
+
+</body>
+</html>

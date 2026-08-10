@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Interactive Visualizations — Brighton D</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="base.css">
+<style>
+  .viz-card{
+    border:1px solid var(--line);
+    border-radius:6px;
+    padding:28px;
+    margin-bottom:24px;
+    background:var(--bg-raised);
+  }
+  .viz-top{margin-bottom:18px;}
+  .viz-title{
+    font-family:var(--display);
+    font-size:19px;
+    font-weight:600;
+    margin-bottom:6px;
+  }
+  .viz-desc{
+    font-size:13.5px;
+    color:var(--ink-dim);
+    max-width:600px;
+  }
+  .viz-stage{
+    background:var(--bg);
+    border:1px solid var(--line-soft);
+    border-radius:6px;
+    padding:24px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:16px;
+  }
+  .viz-controls{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    flex-wrap:wrap;
+    width:100%;
+    max-width:520px;
+  }
+  .viz-controls label{
+    font-family:var(--mono);
+    font-size:11.5px;
+    color:var(--ink-faint);
+    white-space:nowrap;
+  }
+  .viz-controls input[type=range]{
+    flex:1;
+    accent-color:var(--accent);
+  }
+  .viz-readout{
+    font-family:var(--mono);
+    font-size:12.5px;
+    color:var(--accent);
+    min-width:52px;
+    text-align:right;
+  }
+  .viz-btn-row{display:flex; gap:10px; flex-wrap:wrap;}
+  .viz-btn{
+    font-family:var(--mono);
+    font-size:12px;
+    padding:8px 14px;
+    border:1px solid var(--line);
+    border-radius:4px;
+    background:transparent;
+    color:var(--ink-dim);
+    cursor:pointer;
+    transition:all 0.2s ease;
+  }
+  .viz-btn:hover{border-color:var(--accent); color:var(--accent);}
+  .viz-btn.active{border-color:var(--accent); color:var(--accent); background:rgba(95,168,211,0.08);}
+
+  .conceptual-badge{
+    display:inline-block;
+    font-family:var(--mono);
+    font-size:10px;
+    letter-spacing:0.06em;
+    text-transform:uppercase;
+    padding:4px 9px;
+    border:1px solid var(--warm);
+    border-radius:3px;
+    color:var(--warm);
+    background:rgba(224,164,88,0.08);
+    margin-left:10px;
+    vertical-align:middle;
+  }
+
+  .att-grid{
+    display:grid;
+    grid-template-columns:repeat(8, 1fr);
+    gap:3px;
+    width:100%;
+    max-width:340px;
+  }
+  .att-cell{
+    aspect-ratio:1;
+    border-radius:2px;
+    background:rgba(95,168,211,0.08);
+    transition:background 0.15s ease;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <nav class="wrap">
+    <a href="index.html" class="nav-mark">brighton<span>.d</span></a>
+        <ul class="nav-links">
+      <li><a href="about.html">About</a></li>
+      <li><a href="projects.html">Projects</a></li>
+      <li><a href="research.html">Research</a></li>
+      <li><a href="publications.html">Publications</a></li>
+      <li><a href="notebook.html">Notebook</a></li>
+      <li class="nav-dropdown">
+        <a href="gallery.html" class="active">Lab</a>
+        <div class="nav-dropdown-menu">
+          <a href="gallery.html">Architecture Gallery</a>
+          <a href="visualizations.html">Interactive Visualizations</a>
+        </div>
+      </li>
+      <li><a href="skills.html">Skills</a></li>
+      <li><a href="resume.html">Resume</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+  </nav>
+</header>
+
+<div class="wrap crumb"><a href="index.html">Home</a> / Interactive Visualizations</div>
+
+<main>
+
+  <section class="wrap page-header" style="padding-bottom:24px;">
+    <div class="page-eyebrow">Interactive Visualizations</div>
+    <h1 class="page-title">Hands-on explanations of the math.</h1>
+    <p class="page-sub">
+      Small interactive demos for the concepts covered on the
+      <a href="research.html#math" style="color:var(--accent);">Research</a> page —
+      built to give intuition, not to reproduce any client data.
+    </p>
+  </section>
+
+  <section class="wrap" style="padding-top:0; border-top:none;">
+
+    <!-- ===== BOUNDING BOX ROTATION ===== -->
+    <div class="viz-card">
+      <div class="viz-top">
+        <div class="viz-title">Bounding Box Rotation</div>
+        <div class="viz-desc">Drag the slider to see how a rotated bounding box (x, y, w, h, θ) tracks an object's true orientation, versus a fixed axis-aligned box.</div>
+      </div>
+      <div class="viz-stage">
+        <svg id="bboxSvg" viewBox="0 0 320 220" width="320" height="220">
+          <rect id="axisBox" x="0" y="0" width="0" height="0" fill="none" stroke="#5C5F5B" stroke-width="1.5" stroke-dasharray="4 3"/>
+          <g id="objGroup">
+            <rect x="-45" y="-18" width="90" height="36" rx="4" fill="#1A1D20" stroke="#5C5F5B" stroke-width="1"/>
+          </g>
+          <g id="rotBoxGroup">
+            <rect x="-55" y="-28" width="110" height="56" fill="none" stroke="#E0A458" stroke-width="2"/>
+          </g>
+        </svg>
+        <div class="viz-controls">
+          <label>θ (angle)</label>
+          <input type="range" id="angleSlider" min="0" max="180" value="0">
+          <span class="viz-readout" id="angleReadout">0°</span>
+        </div>
+        <div class="viz-desc" style="text-align:center;">
+          <span style="color:#5C5F5B;">— — —</span> axis-aligned box &nbsp;&nbsp;
+          <span style="color:#E0A458;">———</span> rotated box
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== ATTENTION VISUALIZATION ===== -->
+    <div class="viz-card">
+      <div class="viz-top">
+        <div class="viz-title">Attention Visualization</div>
+        <div class="viz-desc">Hover a cell to see a simplified self-attention pattern — how strongly that position "attends" to every other position in the grid.</div>
+      </div>
+      <div class="viz-stage">
+        <div class="att-grid" id="attGrid"></div>
+        <div class="viz-desc">Hover any cell — brighter cells indicate higher attention weight from the hovered position.</div>
+      </div>
+    </div>
+
+    <!-- ===== LOSS CURVE ===== -->
+    <div class="viz-card">
+      <div class="viz-top">
+        <div class="viz-title">Loss Curve <span class="conceptual-badge">Conceptual Demonstration</span></div>
+        <div class="viz-desc">An illustrative training loss curve — classification loss, box regression loss, and their combined total, decreasing over epochs.</div>
+      </div>
+      <div class="viz-stage">
+        <svg id="lossSvg" viewBox="0 0 560 220" width="100%" height="220" style="max-width:560px;">
+          <line x1="40" y1="10" x2="40" y2="190" stroke="#262A2E" stroke-width="1"/>
+          <line x1="40" y1="190" x2="540" y2="190" stroke="#262A2E" stroke-width="1"/>
+          <text x="20" y="15" font-family="JetBrains Mono, monospace" font-size="10" fill="#5C5F5B">L</text>
+          <text x="530" y="205" font-family="JetBrains Mono, monospace" font-size="10" fill="#5C5F5B">epoch</text>
+          <path id="clsLossPath" fill="none" stroke="#5FA8D3" stroke-width="2"/>
+          <path id="boxLossPath" fill="none" stroke="#E0A458" stroke-width="2"/>
+          <path id="totalLossPath" fill="none" stroke="#B79AE0" stroke-width="2"/>
+        </svg>
+        <div class="viz-desc" style="text-align:center;">
+          <span style="color:#5FA8D3;">———</span> classification &nbsp;&nbsp;
+          <span style="color:#E0A458;">———</span> box regression &nbsp;&nbsp;
+          <span style="color:#B79AE0;">———</span> total
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== TRAINING CURVE (mAP) ===== -->
+    <div class="viz-card">
+      <div class="viz-top">
+        <div class="viz-title">Training Curve — mAP <span class="conceptual-badge">Conceptual Demonstration</span></div>
+        <div class="viz-desc">An illustrative detection accuracy (mAP) curve over training epochs, showing typical convergence behavior.</div>
+      </div>
+      <div class="viz-stage">
+        <svg id="mapSvg" viewBox="0 0 560 220" width="100%" height="220" style="max-width:560px;">
+          <line x1="40" y1="10" x2="40" y2="190" stroke="#262A2E" stroke-width="1"/>
+          <line x1="40" y1="190" x2="540" y2="190" stroke="#262A2E" stroke-width="1"/>
+          <text x="14" y="15" font-family="JetBrains Mono, monospace" font-size="10" fill="#5C5F5B">mAP</text>
+          <text x="530" y="205" font-family="JetBrains Mono, monospace" font-size="10" fill="#5C5F5B">epoch</text>
+          <path id="mapPath" fill="none" stroke="#5FA8D3" stroke-width="2"/>
+          <line id="mapTargetLine" x1="40" x2="540" stroke="#E0A458" stroke-width="1" stroke-dasharray="4 3"/>
+          <text id="mapTargetLabel" font-family="JetBrains Mono, monospace" font-size="10.5" fill="#E0A458"></text>
+        </svg>
+      </div>
+    </div>
+
+    <!-- ===== ROTATED IoU ===== -->
+    <div class="viz-card">
+      <div class="viz-top">
+        <div class="viz-title">Rotated IoU</div>
+        <div class="viz-desc">Drag the angle sliders for two rotated boxes and see how their intersection-over-union changes — the metric used to match predictions to ground truth in oriented detection.</div>
+      </div>
+      <div class="viz-stage">
+        <svg id="iouSvg" viewBox="0 0 320 220" width="320" height="220">
+          <g id="boxAGroup"><rect x="-50" y="-24" width="100" height="48" fill="rgba(95,168,211,0.15)" stroke="#5FA8D3" stroke-width="2"/></g>
+          <g id="boxBGroup"><rect x="-50" y="-24" width="100" height="48" fill="rgba(224,164,88,0.15)" stroke="#E0A458" stroke-width="2"/></g>
+        </svg>
+        <div class="viz-controls">
+          <label>Box A θ</label>
+          <input type="range" id="iouAngleA" min="-60" max="60" value="0">
+          <span class="viz-readout" id="iouAReadout">0°</span>
+        </div>
+        <div class="viz-controls">
+          <label>Box B θ</label>
+          <input type="range" id="iouAngleB" min="-60" max="60" value="20">
+          <span class="viz-readout" id="iouBReadout">20°</span>
+        </div>
+        <div class="viz-desc" style="text-align:center;">
+          Approximate IoU: <span id="iouValue" style="color:var(--accent); font-family:var(--mono);">—</span>
+          <span class="conceptual-badge" style="margin-left:8px;">Conceptual Demonstration</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== HUNGARIAN MATCHING ===== -->
+    <div class="viz-card">
+      <div class="viz-top">
+        <div class="viz-title">Hungarian Matching</div>
+        <div class="viz-desc">Click "Match" to see predictions assigned to ground-truth boxes via lowest-cost bipartite matching — the set-prediction training approach used in Oriented-DETR.</div>
+      </div>
+      <div class="viz-stage">
+        <svg viewBox="0 0 400 200" width="100%" height="200" style="max-width:400px;">
+          <text x="70" y="20" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10.5" fill="#5C5F5B">PREDICTIONS</text>
+          <text x="330" y="20" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10.5" fill="#5C5F5B">GROUND TRUTH</text>
+          <circle cx="70" cy="55" r="16" fill="rgba(95,168,211,0.12)" stroke="#5FA8D3" stroke-width="1.5"/>
+          <text x="70" y="59" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" fill="#EAE7DE">P1</text>
+          <circle cx="70" cy="105" r="16" fill="rgba(95,168,211,0.12)" stroke="#5FA8D3" stroke-width="1.5"/>
+          <text x="70" y="109" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" fill="#EAE7DE">P2</text>
+          <circle cx="70" cy="155" r="16" fill="rgba(95,168,211,0.12)" stroke="#5FA8D3" stroke-width="1.5"/>
+          <text x="70" y="159" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" fill="#EAE7DE">P3</text>
+
+          <circle cx="330" cy="55" r="16" fill="rgba(224,164,88,0.12)" stroke="#E0A458" stroke-width="1.5"/>
+          <text x="330" y="59" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" fill="#EAE7DE">G1</text>
+          <circle cx="330" cy="105" r="16" fill="rgba(224,164,88,0.12)" stroke="#E0A458" stroke-width="1.5"/>
+          <text x="330" y="109" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" fill="#EAE7DE">G2</text>
+          <circle cx="330" cy="155" r="16" fill="rgba(224,164,88,0.12)" stroke="#E0A458" stroke-width="1.5"/>
+          <text x="330" y="159" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" fill="#EAE7DE">G3</text>
+
+          <line id="matchLine1" x1="86" y1="55" x2="314" y2="55" stroke="#262A2E" stroke-width="1.5" stroke-dasharray="3 3"/>
+          <line id="matchLine2" x1="86" y1="105" x2="314" y2="105" stroke="#262A2E" stroke-width="1.5" stroke-dasharray="3 3"/>
+          <line id="matchLine3" x1="86" y1="155" x2="314" y2="155" stroke="#262A2E" stroke-width="1.5" stroke-dasharray="3 3"/>
+        </svg>
+        <div class="viz-btn-row">
+          <button class="viz-btn" id="matchBtn">Match (lowest cost)</button>
+          <button class="viz-btn" id="resetMatchBtn">Reset</button>
+        </div>
+        <div class="viz-desc" style="text-align:center;">
+          Each prediction is assigned to exactly one ground-truth box, minimizing total assignment cost.
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== ARCHITECTURE ANIMATION (encoder-decoder flow) ===== -->
+    <div class="viz-card">
+      <div class="viz-top">
+        <div class="viz-title">Architecture Animation — Encoder–Decoder Flow</div>
+        <div class="viz-desc">A simplified animated view of how information moves through a transformer-style encoder–decoder, one step at a time.</div>
+      </div>
+      <div class="viz-stage">
+        <svg viewBox="0 0 560 140" width="100%" height="140" style="max-width:560px;">
+          <rect x="20" y="45" width="110" height="50" rx="6" fill="rgba(95,168,211,0.08)" stroke="#5FA8D3" stroke-width="1"/>
+          <text x="75" y="75" text-anchor="middle" font-family="Inter, sans-serif" font-size="12" fill="#EAE7DE">Encoder</text>
+
+          <rect x="225" y="45" width="110" height="50" rx="6" fill="rgba(183,154,224,0.10)" stroke="#B79AE0" stroke-width="1"/>
+          <text x="280" y="75" text-anchor="middle" font-family="Inter, sans-serif" font-size="12" fill="#EAE7DE">Decoder</text>
+
+          <rect x="430" y="45" width="110" height="50" rx="6" fill="rgba(224,164,88,0.08)" stroke="#E0A458" stroke-width="1"/>
+          <text x="485" y="75" text-anchor="middle" font-family="Inter, sans-serif" font-size="12" fill="#EAE7DE">Prediction</text>
+
+          <circle id="flowDot" cx="20" cy="70" r="5" fill="#5FA8D3"/>
+        </svg>
+        <div class="viz-btn-row">
+          <button class="viz-btn active" id="playFlowBtn">▶ Play</button>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+</main>
+
+<footer id="contact">
+  <div class="wrap">
+    <div class="footer-name">Let's build something.</div>
+    <div class="footer-links">
+      <a href="mailto:bright851999@gmail.com">bright851999@gmail.com</a>
+      <a href="https://github.com/BrightonDJ" target="_blank" rel="noopener">GitHub ↗</a>
+      <a href="tel:9986825798">+91 99868 25798</a>
+      <a href="https://www.linkedin.com/in/brighton-d-1455b8153" target="_blank" rel="noopener">LinkedIn ↗</a>
+    </div>
+    <div class="footer-note">Tamil (native) · English (proficient)</div>
+  </div>
+</footer>
+
+<script>
+  // ---------- Bounding Box Rotation ----------
+  const angleSlider = document.getElementById('angleSlider');
+  const angleReadout = document.getElementById('angleReadout');
+  const objGroup = document.getElementById('objGroup');
+  const rotBoxGroup = document.getElementById('rotBoxGroup');
+  const axisBox = document.getElementById('axisBox');
+  const cx = 160, cy = 110;
+
+  function updateBBox(angleDeg){
+    const rad = angleDeg * Math.PI / 180;
+    objGroup.setAttribute('transform', `translate(${cx},${cy}) rotate(${angleDeg})`);
+    rotBoxGroup.setAttribute('transform', `translate(${cx},${cy}) rotate(${angleDeg})`);
+
+    // compute axis-aligned bounding box of the rotated rect corners
+    const w = 110, h = 56;
+    const corners = [[-w/2,-h/2],[w/2,-h/2],[w/2,h/2],[-w/2,h/2]];
+    let minX=Infinity,maxX=-Infinity,minY=Infinity,maxY=-Infinity;
+    corners.forEach(([x,y])=>{
+      const rx = x*Math.cos(rad) - y*Math.sin(rad);
+      const ry = x*Math.sin(rad) + y*Math.cos(rad);
+      minX = Math.min(minX, rx); maxX = Math.max(maxX, rx);
+      minY = Math.min(minY, ry); maxY = Math.max(maxY, ry);
+    });
+    axisBox.setAttribute('x', cx + minX);
+    axisBox.setAttribute('y', cy + minY);
+    axisBox.setAttribute('width', maxX - minX);
+    axisBox.setAttribute('height', maxY - minY);
+
+    angleReadout.textContent = angleDeg + '°';
+  }
+  angleSlider.addEventListener('input', e => updateBBox(parseInt(e.target.value)));
+  updateBBox(0);
+
+  // ---------- Attention Visualization ----------
+  const attGrid = document.getElementById('attGrid');
+  const N = 8;
+  const cells = [];
+  for(let i=0;i<N*N;i++){
+    const cell = document.createElement('div');
+    cell.className = 'att-cell';
+    cell.dataset.idx = i;
+    attGrid.appendChild(cell);
+    cells.push(cell);
+  }
+  function setAttention(hoverIdx){
+    const hr = Math.floor(hoverIdx / N), hc = hoverIdx % N;
+    cells.forEach((cell, i) => {
+      const r = Math.floor(i / N), c = i % N;
+      const dist = Math.sqrt((r-hr)**2 + (c-hc)**2);
+      const weight = Math.exp(-dist*dist / 8); // gaussian falloff as a simple attention proxy
+      cell.style.background = `rgba(95,168,211,${0.06 + weight*0.85})`;
+    });
+  }
+  cells.forEach(cell => {
+    cell.addEventListener('mouseenter', () => setAttention(parseInt(cell.dataset.idx)));
+  });
+  attGrid.addEventListener('mouseleave', () => {
+    cells.forEach(c => c.style.background = 'rgba(95,168,211,0.08)');
+  });
+  setAttention(27); // default focal point
+
+  // ---------- Loss Curve ----------
+  function buildPath(points){
+    return points.map((p,i) => (i===0?'M':'L') + p[0] + ',' + p[1]).join(' ');
+  }
+  function lossValue(epoch, start, end, decay){
+    return end + (start-end) * Math.exp(-epoch/decay);
+  }
+  const epochs = 40;
+  const clsPts=[], boxPts=[], totalPts=[];
+  for(let e=0;e<=epochs;e++){
+    const x = 40 + (e/epochs)*500;
+    const cls = lossValue(e, 2.2, 0.25, 9);
+    const box = lossValue(e, 1.8, 0.35, 13);
+    const total = cls + box;
+    clsPts.push([x, 190 - (cls/3)*170]);
+    boxPts.push([x, 190 - (box/3)*170]);
+    totalPts.push([x, 190 - (total/5.5)*170]);
+  }
+  document.getElementById('clsLossPath').setAttribute('d', buildPath(clsPts));
+  document.getElementById('boxLossPath').setAttribute('d', buildPath(boxPts));
+  document.getElementById('totalLossPath').setAttribute('d', buildPath(totalPts));
+
+  // ---------- mAP Training Curve ----------
+  const mapPts = [];
+  for(let e=0;e<=epochs;e++){
+    const x = 40 + (e/epochs)*500;
+    const map = 0.78 * (1 - Math.exp(-e/11)) + (Math.random()-0.5)*0.015;
+    mapPts.push([x, 190 - Math.max(0,map)*170]);
+  }
+  document.getElementById('mapPath').setAttribute('d', buildPath(mapPts));
+  const targetY = 190 - 0.78*170;
+  const targetLine = document.getElementById('mapTargetLine');
+  targetLine.setAttribute('y1', targetY);
+  targetLine.setAttribute('y2', targetY);
+  const targetLabel = document.getElementById('mapTargetLabel');
+  targetLabel.setAttribute('x', 440);
+  targetLabel.setAttribute('y', targetY - 6);
+  targetLabel.textContent = 'target mAP';
+
+  // ---------- Architecture flow animation ----------
+  const flowDot = document.getElementById('flowDot');
+  const playBtn = document.getElementById('playFlowBtn');
+  let flowAnim = null;
+  const flowPath = [[20,70],[75,70],[130,70],[225,70],[280,70],[335,70],[430,70],[485,70],[540,70]];
+  function playFlow(){
+    let i = 0;
+    if(flowAnim) clearInterval(flowAnim);
+    flowAnim = setInterval(() => {
+      if(i >= flowPath.length){ i = 0; }
+      flowDot.setAttribute('cx', flowPath[i][0]);
+      flowDot.setAttribute('cy', flowPath[i][1]);
+      i++;
+    }, 260);
+  }
+  playBtn.addEventListener('click', () => { playFlow(); });
+  playFlow();
+
+  // ---------- Rotated IoU ----------
+  const boxAGroup = document.getElementById('boxAGroup');
+  const boxBGroup = document.getElementById('boxBGroup');
+  const iouAngleA = document.getElementById('iouAngleA');
+  const iouAngleB = document.getElementById('iouAngleB');
+  const iouAReadout = document.getElementById('iouAReadout');
+  const iouBReadout = document.getElementById('iouBReadout');
+  const iouValue = document.getElementById('iouValue');
+  const iouCx = 160, iouCy = 110;
+
+  function polygonArea(pts){
+    let area = 0;
+    for(let i=0;i<pts.length;i++){
+      const [x1,y1] = pts[i];
+      const [x2,y2] = pts[(i+1)%pts.length];
+      area += x1*y2 - x2*y1;
+    }
+    return Math.abs(area)/2;
+  }
+  function rotatedCorners(angleDeg, w, h){
+    const rad = angleDeg*Math.PI/180;
+    return [[-w/2,-h/2],[w/2,-h/2],[w/2,h/2],[-w/2,h/2]].map(([x,y]) => [
+      x*Math.cos(rad) - y*Math.sin(rad),
+      x*Math.sin(rad) + y*Math.cos(rad)
+    ]);
+  }
+  // approximate IoU via grid sampling (fast enough for a small demo canvas)
+  function approxIoU(angleA, angleB, w=100, h=48){
+    const cornersA = rotatedCorners(angleA, w, h);
+    const cornersB = rotatedCorners(angleB, w, h);
+    function pointInPoly(px, py, poly){
+      let inside = false;
+      for(let i=0,j=poly.length-1;i<poly.length;j=i++){
+        const [xi,yi]=poly[i], [xj,yj]=poly[j];
+        if(((yi>py)!==(yj>py)) && (px < (xj-xi)*(py-yi)/(yj-yi)+xi)) inside = !inside;
+      }
+      return inside;
+    }
+    let inter = 0, unionCount = 0;
+    const step = 2, range = 70;
+    for(let x=-range;x<=range;x+=step){
+      for(let y=-range;y<=range;y+=step){
+        const inA = pointInPoly(x,y,cornersA);
+        const inB = pointInPoly(x,y,cornersB);
+        if(inA || inB) unionCount++;
+        if(inA && inB) inter++;
+      }
+    }
+    return unionCount === 0 ? 0 : inter/unionCount;
+  }
+  function updateIoU(){
+    const a = parseInt(iouAngleA.value), b = parseInt(iouAngleB.value);
+    boxAGroup.setAttribute('transform', `translate(${iouCx},${iouCy}) rotate(${a})`);
+    boxBGroup.setAttribute('transform', `translate(${iouCx},${iouCy}) rotate(${b})`);
+    iouAReadout.textContent = a + '°';
+    iouBReadout.textContent = b + '°';
+    const iou = approxIoU(a,b);
+    iouValue.textContent = iou.toFixed(2);
+  }
+  iouAngleA.addEventListener('input', updateIoU);
+  iouAngleB.addEventListener('input', updateIoU);
+  updateIoU();
+
+  // ---------- Hungarian Matching (illustrative demo, precomputed lowest-cost pairing) ----------
+  const matchBtn = document.getElementById('matchBtn');
+  const resetMatchBtn = document.getElementById('resetMatchBtn');
+  const matchLines = [document.getElementById('matchLine1'), document.getElementById('matchLine2'), document.getElementById('matchLine3')];
+  // a fixed illustrative cost matrix and its optimal assignment (P1-G2, P2-G1, P3-G3)
+  const optimalPairs = [
+    {pred:55, gt:105},  // P1 -> G2
+    {pred:105, gt:55},  // P2 -> G1
+    {pred:155, gt:155}  // P3 -> G3
+  ];
+  function showMatch(){
+    optimalPairs.forEach((pair, i) => {
+      const line = matchLines[i];
+      line.setAttribute('y1', pair.pred);
+      line.setAttribute('y2', pair.gt);
+      line.setAttribute('stroke', '#5FA8D3');
+      line.setAttribute('stroke-dasharray', 'none');
+      line.setAttribute('stroke-width', '2');
+    });
+  }
+  function resetMatch(){
+    const defaults = [55,105,155];
+    matchLines.forEach((line, i) => {
+      line.setAttribute('y1', defaults[i]);
+      line.setAttribute('y2', defaults[i]);
+      line.setAttribute('stroke', '#262A2E');
+      line.setAttribute('stroke-dasharray', '3 3');
+      line.setAttribute('stroke-width', '1.5');
+    });
+  }
+  matchBtn.addEventListener('click', showMatch);
+  resetMatchBtn.addEventListener('click', resetMatch);
+</script>
+
+</body>
+</html>

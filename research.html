@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Research — Brighton D</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="base.css">
+<style>
+  .research-card{
+    border:1px solid var(--line);
+    border-radius:6px;
+    padding:32px;
+    margin-bottom:20px;
+    background:var(--bg-raised);
+  }
+  .research-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    gap:16px;
+    margin-bottom:16px;
+    flex-wrap:wrap;
+  }
+  .research-title{
+    font-family:var(--display);
+    font-size:22px;
+    font-weight:600;
+  }
+  .research-tag{
+    font-family:var(--mono);
+    font-size:10.5px;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    padding:4px 9px;
+    border-radius:3px;
+    background:rgba(95,168,211,0.12);
+    color:var(--accent);
+    white-space:nowrap;
+  }
+  .research-block{margin-bottom:16px;}
+  .research-block:last-child{margin-bottom:0;}
+  .research-block h4{
+    font-family:var(--mono);
+    font-size:11px;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    color:var(--ink-faint);
+    margin-bottom:8px;
+  }
+  .research-block p{
+    font-size:14px;
+    color:var(--ink-dim);
+    max-width:680px;
+  }
+  .research-block ul{
+    list-style:none;
+    margin:0;
+  }
+  .research-block ul li{
+    font-size:14px;
+    color:var(--ink-dim);
+    padding-left:14px;
+    position:relative;
+    margin-bottom:6px;
+  }
+  .research-block ul li::before{
+    content:"—";
+    position:absolute;
+    left:0;
+    color:var(--ink-faint);
+  }
+
+  /* sub-nav within research page */
+  .research-subnav{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    margin-bottom:8px;
+  }
+  .research-subnav a{
+    font-family:var(--mono);
+    font-size:11.5px;
+    padding:8px 14px;
+    border:1px solid var(--line);
+    border-radius:20px;
+    color:var(--ink-dim);
+    text-decoration:none;
+    transition:all 0.2s ease;
+  }
+  .research-subnav a:hover{border-color:var(--accent); color:var(--accent);}
+
+  /* model cards (ReDet, ORCNN, etc.) */
+  .model-card{
+    border:1px solid var(--line);
+    border-radius:6px;
+    padding:26px;
+    margin-bottom:16px;
+    background:var(--bg);
+  }
+  .model-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    gap:12px;
+    margin-bottom:14px;
+    flex-wrap:wrap;
+  }
+  .model-name{
+    font-family:var(--display);
+    font-size:19px;
+    font-weight:600;
+    color:var(--warm);
+  }
+  .model-year{
+    font-family:var(--mono);
+    font-size:11px;
+    color:var(--ink-faint);
+  }
+  .model-block{margin-bottom:12px;}
+  .model-block:last-child{margin-bottom:0;}
+  .model-block h5{
+    font-family:var(--mono);
+    font-size:10.5px;
+    letter-spacing:0.06em;
+    text-transform:uppercase;
+    color:var(--ink-faint);
+    margin-bottom:6px;
+  }
+  .model-block p{
+    font-size:13.5px;
+    color:var(--ink-dim);
+  }
+  .eq{
+    font-family:'JetBrains Mono', monospace;
+    font-size:13px;
+    color:var(--accent);
+    background:rgba(95,168,211,0.06);
+    border:1px solid var(--line-soft);
+    border-radius:4px;
+    padding:10px 14px;
+    margin:8px 0;
+    overflow-x:auto;
+  }
+  .model-insight{
+    font-size:13px;
+    color:var(--ink);
+    background:rgba(224,164,88,0.06);
+    border-left:2px solid var(--warm);
+    padding:10px 14px;
+    margin-top:10px;
+  }
+
+  /* math concepts grid */
+  .concept-grid{
+    display:grid;
+    grid-template-columns:repeat(2, 1fr);
+    gap:16px;
+  }
+  @media (max-width:720px){
+    .concept-grid{grid-template-columns:1fr;}
+  }
+  .concept-card{
+    border:1px solid var(--line);
+    border-radius:6px;
+    padding:22px;
+    background:var(--bg-raised);
+  }
+  .concept-card h5{
+    font-family:var(--display);
+    font-size:15.5px;
+    font-weight:600;
+    margin-bottom:10px;
+  }
+  .concept-card .eq{margin:8px 0;}
+  .concept-card p{
+    font-size:13px;
+    color:var(--ink-dim);
+    margin-bottom:6px;
+  }
+  .concept-card .app{
+    font-size:12px;
+    color:var(--ink-faint);
+    font-style:italic;
+    margin-top:6px;
+  }
+
+  /* timeline */
+  .timeline{
+    position:relative;
+    padding-left:28px;
+    margin-top:8px;
+  }
+  .timeline::before{
+    content:"";
+    position:absolute;
+    left:5px; top:6px; bottom:6px;
+    width:1px;
+    background:var(--line);
+  }
+  .tl-item{
+    position:relative;
+    padding-bottom:28px;
+  }
+  .tl-item:last-child{padding-bottom:0;}
+  .tl-item::before{
+    content:"";
+    position:absolute;
+    left:-28px; top:4px;
+    width:9px; height:9px;
+    border-radius:50%;
+    background:var(--bg);
+    border:2px solid var(--accent);
+  }
+  .tl-year{
+    font-family:var(--mono);
+    font-size:11.5px;
+    color:var(--accent);
+    margin-bottom:4px;
+  }
+  .tl-label{
+    font-size:14px;
+    color:var(--ink);
+    font-weight:500;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <nav class="wrap">
+    <a href="index.html" class="nav-mark">brighton<span>.d</span></a>
+        <ul class="nav-links">
+      <li><a href="about.html">About</a></li>
+      <li><a href="projects.html">Projects</a></li>
+      <li><a href="research.html" class="active">Research</a></li>
+      <li><a href="publications.html">Publications</a></li>
+      <li><a href="notebook.html">Notebook</a></li>
+      <li class="nav-dropdown">
+        <a href="gallery.html">Lab</a>
+        <div class="nav-dropdown-menu">
+          <a href="gallery.html">Architecture Gallery</a>
+          <a href="visualizations.html">Interactive Visualizations</a>
+        </div>
+      </li>
+      <li><a href="skills.html">Skills</a></li>
+      <li><a href="resume.html">Resume</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+  </nav>
+</header>
+
+<div class="wrap crumb"><a href="index.html">Home</a> / Research</div>
+
+<main>
+
+  <section class="wrap page-header" style="padding-bottom:24px;">
+    <div class="page-eyebrow">Research</div>
+    <h1 class="page-title">What I've investigated.</h1>
+    <p class="page-sub">
+      Industrial research, the mathematics behind oriented detection, and academic work from my PhD.
+      For what these ideas turned into in production, see
+      <a href="projects.html" style="color:var(--accent);">Featured Projects</a>.
+    </p>
+    <div class="research-subnav" style="margin-top:24px;">
+      <a href="#industrial">Industrial Research</a>
+      <a href="#focus">Research Focus</a>
+      <a href="#math">Mathematical Concepts</a>
+      <a href="#domain">Application Domain</a>
+      <a href="#academic">Academic Research</a>
+      <a href="publications.html">Publications ↗</a>
+    </div>
+  </section>
+
+  <!-- ================= RESEARCH TIMELINE ================= -->
+  <section class="wrap" style="padding-top:0; border-top:none;">
+    <div class="section-head">
+      <h2 class="section-title" style="font-size:22px;">Research Timeline</h2>
+    </div>
+    <div class="timeline">
+      <div class="tl-item"><div class="tl-year">2022</div><div class="tl-label">Image processing &amp; CNN classification — PhD begins</div></div>
+      <div class="tl-item"><div class="tl-year">2023</div><div class="tl-label">Image segmentation &amp; mathematical modelling</div></div>
+      <div class="tl-item"><div class="tl-year">2024</div><div class="tl-label">Pollen grain classification published — CIS 2024</div></div>
+      <div class="tl-item"><div class="tl-year">2025</div><div class="tl-label">Plant tissue segmentation published — CompCom 2025 · PhD completed</div></div>
+      <div class="tl-item"><div class="tl-year">2025</div><div class="tl-label">Oriented object detection &amp; transformer research begins at RAPL</div></div>
+      <div class="tl-item"><div class="tl-year">2026</div><div class="tl-label">Enterprise AI &amp; agentic AI — RAG platform, TrainForge AI</div></div>
+    </div>
+  </section>
+
+  <!-- ================= INDUSTRIAL RESEARCH ================= -->
+  <section id="industrial" class="wrap">
+    <div class="node-rule">
+      <svg width="20" height="10" viewBox="0 0 20 10"><circle cx="2" cy="5" r="2" fill="#5FA8D3"/><line x1="4" y1="5" x2="16" y2="5" stroke="#262A2E" stroke-width="1"/><circle cx="18" cy="5" r="2" fill="#5FA8D3" fill-opacity="0.35"/></svg>
+      <span class="label">Industrial Research</span>
+    </div>
+
+    <div class="research-card">
+      <div class="research-top">
+        <span class="research-title">Hybrid Object Detection for Aerial Imagery</span>
+        <span class="research-tag">Aerospace &amp; Defence · Individual</span>
+      </div>
+      <div class="research-block">
+        <h4>Research Question</h4>
+        <p>Can a hybrid deep-learning approach improve detection of arbitrarily oriented objects in aerial imagery compared with existing oriented detection methods?</p>
+      </div>
+      <div class="research-block">
+        <h4>Motivation</h4>
+        <p>Axis-aligned detectors under- or over-include background when objects appear at arbitrary angles — common in aerial and satellite imagery. Oriented detection recovers the true extent and heading of each object, which matters for downstream geo-intelligence tasks.</p>
+      </div>
+      <div class="research-block">
+        <h4>Methodology</h4>
+        <p>Investigated and experimentally evaluated a hybrid object detection approach combining complementary representation-learning strategies for classification and localization.</p>
+      </div>
+      <div class="research-block">
+        <h4>Experiments</h4>
+        <p>Trained and evaluated on a custom aerial imagery dataset spanning 18 object classes across 16K+ images, with comparative evaluation against existing oriented detection methods.</p>
+      </div>
+      <div class="research-block">
+        <h4>Evaluation</h4>
+        <p>Mean average precision (mAP) on rotated-IoU matched detections, the standard metric for oriented object detection benchmarks.</p>
+      </div>
+      <div class="research-block">
+        <h4>Results</h4>
+        <p>78%+ mAP on the custom dataset. Delivered two publishable research manuscripts as client technical deliverables.</p>
+      </div>
+      <div class="research-block">
+        <h4>Limitations</h4>
+        <p>Performance degrades on densely packed small objects and under heavy sensor noise; angle boundary discontinuity (wraparound near 0°/180°) remains a general challenge in oriented detection.</p>
+      </div>
+      <div class="research-block">
+        <h4>Future Work</h4>
+        <p>Exploring continuous angle representations to resolve boundary discontinuity, and evaluating transformer-based set-prediction approaches as a regression-free alternative.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= RESEARCH FOCUS ================= -->
+  <section id="focus" class="wrap">
+    <div class="node-rule">
+      <svg width="20" height="10" viewBox="0 0 20 10"><circle cx="2" cy="5" r="2" fill="#5FA8D3"/><line x1="4" y1="5" x2="16" y2="5" stroke="#262A2E" stroke-width="1"/><circle cx="18" cy="5" r="2" fill="#5FA8D3" fill-opacity="0.35"/></svg>
+      <span class="label">Research Focus: Oriented Object Detection</span>
+    </div>
+    <p style="font-size:14.5px; color:var(--ink-dim); max-width:680px; margin-bottom:24px;">
+      Representative methods I've studied and analyzed in depth while working on aerial object
+      detection research — the ideas below informed my analysis even where a given method wasn't
+      used directly.
+    </p>
+
+    <div style="font-family:var(--mono); font-size:11.5px; letter-spacing:0.08em; text-transform:uppercase; color:var(--ink-faint); margin-bottom:14px;">
+      Representative Methods Analyzed
+    </div>
+
+    <div class="model-card">
+      <div class="model-top"><span class="model-name">ReDet</span><span class="model-year">Rotation-equivariant detector</span></div>
+      <div class="model-block">
+        <h5>Overview</h5>
+        <p>Builds rotation equivariance directly into the backbone's convolutional filters, so features rotate consistently with the input rather than relying on data augmentation to approximate that behavior.</p>
+      </div>
+      <div class="model-block">
+        <h5>Mathematical Foundation</h5>
+        <p>Uses group-equivariant convolutions over a discretized rotation group. For a rotation g and feature map f, an equivariant layer Φ satisfies:</p>
+        <div class="eq">Φ(g · f) = g · Φ(f)</div>
+        <p>Filters are defined over multiple orientation channels so the same learned kernel responds identically to a rotated version of its input — the network doesn't need to relearn a pattern at every angle.</p>
+      </div>
+      <div class="model-block">
+        <h5>Architecture</h5>
+        <p>Rotation-equivariant backbone (e.g. ReResNet) feeding a RoI-transform layer that aligns rotated features before a standard detection head.</p>
+      </div>
+      <div class="model-block">
+        <h5>Advantages</h5>
+        <p>Fewer parameters needed to cover the same rotation range as augmentation-only training; more sample-efficient on limited aerial datasets.</p>
+      </div>
+      <div class="model-block">
+        <h5>Limitations</h5>
+        <p>Discretizing the rotation group introduces quantization error at angles between sampled orientations; added compute cost from multi-orientation channels.</p>
+      </div>
+      <div class="model-insight">What I learned: equivariance is a structural property of the network, not a training-time trick — it holds even on unseen orientations.</div>
+    </div>
+
+    <div class="model-card">
+      <div class="model-top"><span class="model-name">Oriented R-CNN (ORCNN)</span><span class="model-year">Two-stage rotated detector</span></div>
+      <div class="model-block">
+        <h5>Rotated Box Parameterization</h5>
+        <p>Extends the standard (x, y, w, h) box with an angle term θ:</p>
+        <div class="eq">box = (x, y, w, h, θ)</div>
+      </div>
+      <div class="model-block">
+        <h5>Angle Regression &amp; Rotated IoU</h5>
+        <p>The angle is regressed alongside box coordinates; overlap between predicted and ground-truth boxes is computed as rotated IoU rather than axis-aligned IoU, which correctly penalizes orientation error even when the axis-aligned extents match.</p>
+      </div>
+      <div class="model-block">
+        <h5>Geometric Optimization &amp; Loss</h5>
+        <p>Loss combines classification loss with a smooth-L1 (or similar) regression loss over the 5 box parameters, with careful handling near the angle boundary to avoid the discontinuity where θ wraps from 180° back to 0°.</p>
+      </div>
+      <div class="model-insight">What I learned: a lightweight midpoint offset representation for proposals keeps the two-stage pipeline efficient while still supporting arbitrary orientation.</div>
+    </div>
+
+    <div class="model-card">
+      <div class="model-top"><span class="model-name">Strip R-CNN</span><span class="model-year">Direction-aware feature extraction</span></div>
+      <div class="model-block">
+        <h5>Long Strip Convolutions</h5>
+        <p>Uses elongated (strip-shaped) convolutional kernels instead of square ones, matching the typical aspect ratio of oriented objects like vehicles or runways rather than forcing a square receptive field to cover an elongated shape.</p>
+      </div>
+      <div class="model-block">
+        <h5>Direction-Aware Features &amp; Context Aggregation</h5>
+        <p>Strip kernels are applied along multiple directions, aggregating context along the likely long axis of the target — giving the network a head start on orientation before any explicit angle prediction happens.</p>
+      </div>
+      <div class="model-block">
+        <h5>Attention &amp; Feature Interaction</h5>
+        <p>Attention layers combine the directional strip features, letting the model weight which orientation's context is most informative for a given region.</p>
+      </div>
+      <div class="model-insight">What I learned: shaping the receptive field to match object geometry can reduce reliance on the detection head to recover orientation from scratch.</div>
+    </div>
+
+    <div class="model-card">
+      <div class="model-top"><span class="model-name">Spatial Transform Decoupling (STD)</span><span class="model-year">Studied method</span></div>
+      <div class="model-block">
+        <h5>Spatial Transformation &amp; Coordinate Mapping</h5>
+        <p>Applies a learned spatial transform to map features into a canonical (de-rotated) coordinate frame before further processing — conceptually related to a Spatial Transformer Network, but specialized for oriented-box prediction.</p>
+      </div>
+      <div class="model-block">
+        <h5>Decoupled Representation</h5>
+        <p>Classification and localization are computed from separate transformed feature branches rather than one shared representation, since the two tasks benefit from different spatial invariances — classification wants rotation-invariant features, localization needs rotation-equivariant ones.</p>
+      </div>
+      <div class="model-block">
+        <h5>Localization, Classification &amp; Attention</h5>
+        <p>Each decoupled branch uses its own attention mechanism tuned to its task, then the outputs are recombined into a final oriented box and class prediction.</p>
+      </div>
+      <div class="model-insight">What I learned: decoupling classification and localization into separate spatial representations is a principled way to resolve a representational conflict between two tasks that want different invariances from the same features.</div>
+    </div>
+
+    <div class="model-card">
+      <div class="model-top"><span class="model-name">Oriented-DETR</span><span class="model-year">Transformer set-prediction detector</span></div>
+      <div class="model-block">
+        <h5>Transformer Encoder–Decoder</h5>
+        <p>Treats detection as direct set prediction: a transformer encoder processes image features, and a decoder attends over a fixed set of learned object queries to predict boxes and classes — no anchors, no NMS.</p>
+      </div>
+      <div class="model-block">
+        <h5>Hungarian Matching &amp; Set Prediction</h5>
+        <p>Predicted boxes are matched to ground truth via bipartite (Hungarian) matching, minimizing total assignment cost:</p>
+        <div class="eq">min<sub>σ</sub> Σᵢ Cost(yᵢ, ŷ<sub>σ(i)</sub>)</div>
+        <p>This removes the need for hand-designed anchor boxes or post-hoc duplicate suppression.</p>
+      </div>
+      <div class="model-block">
+        <h5>Positional Encoding &amp; Self-Attention</h5>
+        <p>Since transformers have no inherent notion of spatial position, positional encodings inject location information into the features; self-attention lets every query attend to the full image context.</p>
+      </div>
+      <div class="model-insight">What I learned: extending DETR's set-prediction formulation to rotated boxes removes anchor-design choices entirely — an appealing direction for future detection heads.</div>
+    </div>
+  </section>
+
+  <!-- ================= MATHEMATICAL CONCEPTS ================= -->
+  <section id="math" class="wrap">
+    <div class="node-rule">
+      <svg width="20" height="10" viewBox="0 0 20 10"><circle cx="2" cy="5" r="2" fill="#5FA8D3"/><line x1="4" y1="5" x2="16" y2="5" stroke="#262A2E" stroke-width="1"/><circle cx="18" cy="5" r="2" fill="#5FA8D3" fill-opacity="0.35"/></svg>
+      <span class="label">Mathematical Concepts Explored</span>
+    </div>
+    <p style="font-size:14.5px; color:var(--ink-dim); max-width:680px; margin-bottom:24px;">
+      A mathematics-first look at the ideas underneath oriented detection and transformer architectures —
+      the intuition and formulation behind each, not a full derivation.
+    </p>
+
+    <div class="concept-grid">
+
+      <div class="concept-card">
+        <h5>Rotation Equivariance</h5>
+        <p><b>Intuition:</b> a function is rotation-equivariant if rotating the input rotates the output the same way, rather than the output changing unpredictably.</p>
+        <div class="eq">Φ(g·x) = g·Φ(x)</div>
+        <p class="app">Application: rotation-equivariant backbones (ReDet) generalize across object orientations with fewer training examples.</p>
+      </div>
+
+      <div class="concept-card">
+        <h5>Attention</h5>
+        <p><b>Intuition:</b> lets a model weigh how relevant every other position is to the current one, instead of only looking at a fixed local neighborhood.</p>
+        <div class="eq">Attn(Q,K,V) = softmax(QKᵀ/√d) V</div>
+        <p class="app">Application: transformer detection heads (STD, Oriented-DETR) use attention to relate object parts across the whole image.</p>
+      </div>
+
+      <div class="concept-card">
+        <h5>Transformer Mathematics</h5>
+        <p><b>Intuition:</b> combines self-attention with position-wise feed-forward layers, processing all tokens in parallel rather than sequentially.</p>
+        <div class="eq">z = LayerNorm(x + Attn(x)); out = LayerNorm(z + FFN(z))</div>
+        <p class="app">Application: the encoder-decoder backbone of Oriented-DETR and the decoupled heads in STD.</p>
+      </div>
+
+      <div class="concept-card">
+        <h5>Rotated Bounding Boxes</h5>
+        <p><b>Intuition:</b> extending an axis-aligned box with an angle parameter lets it hug an object's true orientation instead of its worst-case bounding rectangle.</p>
+        <div class="eq">box = (x, y, w, h, θ)</div>
+        <p class="app">Application: core representation for ORCNN and every oriented-detection method on this page.</p>
+      </div>
+
+      <div class="concept-card">
+        <h5>Optimization</h5>
+        <p><b>Intuition:</b> training adjusts model parameters to minimize a loss function via gradient descent, following the direction of steepest decrease.</p>
+        <div class="eq">θ ← θ − η ∇<sub>θ</sub> L(θ)</div>
+        <p class="app">Application: every model here is trained by minimizing a combined classification + localization loss.</p>
+      </div>
+
+      <div class="concept-card">
+        <h5>Hungarian Matching</h5>
+        <p><b>Intuition:</b> finds the lowest-cost one-to-one assignment between two sets — here, predicted boxes and ground-truth boxes — so each prediction is scored against exactly one target.</p>
+        <div class="eq">min<sub>σ</sub> Σᵢ Cost(yᵢ, ŷ<sub>σ(i)</sub>)</div>
+        <p class="app">Application: Oriented-DETR's set-prediction training, replacing anchor matching and NMS.</p>
+      </div>
+
+      <div class="concept-card">
+        <h5>Feature Fusion</h5>
+        <p><b>Intuition:</b> combines information from multiple feature branches or scales into one representation, since no single branch captures everything a detector needs.</p>
+        <div class="eq">f = α·f₁ + (1−α)·f₂ &nbsp; or &nbsp; f = Concat(f₁, f₂)</div>
+        <p class="app">Application: Strip R-CNN's directional feature aggregation; STD's recombination of decoupled branches.</p>
+      </div>
+
+      <div class="concept-card">
+        <h5>Multi-Scale Learning</h5>
+        <p><b>Intuition:</b> objects appear at very different sizes in aerial imagery, so features are extracted and combined across multiple resolutions rather than one fixed scale.</p>
+        <div class="eq">P<sub>l</sub> = Conv(Upsample(P<sub>l+1</sub>) + C<sub>l</sub>)</div>
+        <p class="app">Application: feature pyramid-style backbones used in several of the detection architectures discussed here.</p>
+      </div>
+
+      <div class="concept-card">
+        <h5>Loss Functions</h5>
+        <p><b>Intuition:</b> a single scalar that measures how wrong a prediction is, combining separate penalties for classification and box localization into one trainable objective.</p>
+        <div class="eq">L = L<sub>cls</sub> + λ · L<sub>box</sub></div>
+        <p class="app">Application: joint training objective across ORCNN, STD, and Oriented-DETR.</p>
+      </div>
+
+      <div class="concept-card">
+        <h5>Positional Encoding</h5>
+        <p><b>Intuition:</b> injects information about a token's position into its feature vector, since attention itself has no built-in sense of order or location.</p>
+        <div class="eq">PE(pos,2i) = sin(pos/10000^(2i/d))</div>
+        <p class="app">Application: positional information is needed for transformer-based detection architectures to retain spatial relationships; Oriented-DETR incorporates positional information as part of its transformer formulation.</p>
+      </div>
+
+      <div class="concept-card">
+        <h5>Geometric Transformations</h5>
+        <p><b>Intuition:</b> operations like rotation, scaling, and translation that map points from one coordinate frame to another while preserving (or predictably changing) structure.</p>
+        <div class="eq">x' = R(θ)·x + t</div>
+        <p class="app">Application: STD's spatial transform layer; data augmentation for rotation-robust training.</p>
+      </div>
+
+      <div class="concept-card">
+        <h5>Coordinate Systems</h5>
+        <p><b>Intuition:</b> choosing the right frame of reference (image, object-centric, or canonical/de-rotated) makes downstream computation simpler or more robust.</p>
+        <div class="eq">x<sub>canonical</sub> = R(−θ)·(x<sub>image</sub> − c)</div>
+        <p class="app">Application: mapping oriented objects to a canonical frame before classification, as in STD.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ================= APPLICATION DOMAIN ================= -->
+  <section id="domain" class="wrap">
+    <div class="node-rule">
+      <svg width="20" height="10" viewBox="0 0 20 10"><circle cx="2" cy="5" r="2" fill="#5FA8D3"/><line x1="4" y1="5" x2="16" y2="5" stroke="#262A2E" stroke-width="1"/><circle cx="18" cy="5" r="2" fill="#5FA8D3" fill-opacity="0.35"/></svg>
+      <span class="label">Application Domain: Remote Sensing AI</span>
+    </div>
+    <div class="research-card">
+      <div class="research-block">
+        <h4>Context</h4>
+        <p>My computer vision research has primarily involved aerial and remote sensing imagery, where object scale, orientation, density, and image resolution introduce challenges that differ from conventional natural image detection — extreme scale variation, dense small objects, and domain-specific noise like cloud cover and sensor artifacts. Most of this work sits at the Centre for Airborne Systems (CABS) and in an aerospace &amp; defence industrial research engagement.</p>
+      </div>
+      <div class="research-block">
+        <h4>Areas of work</h4>
+        <ul>
+          <li>Aerial imagery &amp; satellite imagery analysis</li>
+          <li>Geo-intelligence — extracting structured signal from raw imagery</li>
+          <li>Image annotation &amp; dataset engineering for remote sensing datasets</li>
+          <li>Object orientation estimation and image registration</li>
+          <li>Large image inference — tiling and stitching for high-resolution aerial frames</li>
+          <li>Geospatial analysis workflows</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= ACADEMIC RESEARCH ================= -->
+  <section id="academic" class="wrap">
+    <div class="node-rule">
+      <svg width="20" height="10" viewBox="0 0 20 10"><circle cx="2" cy="5" r="2" fill="#E0A458"/><line x1="4" y1="5" x2="16" y2="5" stroke="#262A2E" stroke-width="1"/><circle cx="18" cy="5" r="2" fill="#E0A458" fill-opacity="0.35"/></svg>
+      <span class="label">Academic Research (PhD)</span>
+    </div>
+
+    <div class="research-card">
+      <div class="research-top">
+        <span class="research-title">Pollen Grain Classification</span>
+        <span class="research-tag" style="background:rgba(224,164,88,0.12); color:var(--warm);">Published · CIS 2024</span>
+      </div>
+      <div class="research-block"><h4>Problem</h4><p>Manual pollen identification for palynology is slow and requires specialist expertise; automating classification from microscope imagery reduces that bottleneck.</p></div>
+      <div class="research-block"><h4>Method</h4><p>Adapted a LeNet-style convolutional neural network architecture for multi-class pollen grain classification.</p></div>
+      <div class="research-block"><h4>CNN</h4><p>TensorFlow/Keras implementation — convolutional feature extraction followed by fully connected classification layers.</p></div>
+      <div class="research-block"><h4>Dataset</h4><p>Curated and preprocessed a labeled pollen grain image dataset spanning multiple species classes.</p></div>
+      <div class="research-block"><h4>Results</h4><p>Achieved reliable multi-class classification accuracy, validated against held-out test data.</p></div>
+      <div class="research-block"><h4>Publication</h4><p>Brighton, D. et al. (2025). Classification of Pollen Grains Using Convolutional Neural Networks. CIS 2024, LNNS vol 1275, Springer. <a href="https://doi.org/10.1007/978-981-96-2694-6_17" target="_blank" rel="noopener" style="color:var(--accent);">DOI ↗</a></p></div>
+    </div>
+
+    <div class="research-card">
+      <div class="research-top">
+        <span class="research-title">Plant Tissue Segmentation</span>
+        <span class="research-tag" style="background:rgba(224,164,88,0.12); color:var(--warm);">Published · CompCom 2025</span>
+      </div>
+      <div class="research-block"><h4>Problem</h4><p>Identifying cavities from stem borer beetle damage in Mangifera indica L. (mango) tissue required a repeatable, image-based segmentation approach rather than manual inspection.</p></div>
+      <div class="research-block"><h4>CT Images</h4><p>Worked from 3D CT scan data of plant tissue samples.</p></div>
+      <div class="research-block"><h4>Image Processing</h4><p>Built a segmentation pipeline to isolate tissue structures and cavity regions from volumetric scan data.</p></div>
+      <div class="research-block"><h4>OpenCV</h4><p>Used OpenCV for the core image-processing operations in the segmentation pipeline.</p></div>
+      <div class="research-block"><h4>Pipeline</h4><p>End-to-end Python pipeline from raw CT slices to segmented cavity regions, developed with research supervision.</p></div>
+      <div class="research-block"><h4>Publication</h4><p>Brighton, D. et al. (2025). Segmentation Techniques in Identifying Cavities Due to Stem Borer Beetles. CompCom 2025, LNNS vol 1425, Springer. <a href="https://doi.org/10.1007/978-3-031-92608-2_12" target="_blank" rel="noopener" style="color:var(--accent);">DOI ↗</a></p></div>
+    </div>
+
+    <div class="research-card">
+      <div class="research-top">
+        <span class="research-title">Hridhayakamalam — Graph-Based Pattern Generator</span>
+        <span class="research-tag">Independent research</span>
+      </div>
+      <div class="research-block"><h4>Graph Theory</h4><p>Represents traditional South Indian Kolam patterns as graph structures, with vertices and edges encoding pattern connectivity.</p></div>
+      <div class="research-block"><h4>Symmetry</h4><p>Exploits rotational and reflective symmetry groups to generate consistent, aesthetically valid patterns from a small set of rules.</p></div>
+      <div class="research-block"><h4>Bézier Curves</h4><p>Uses Bézier curves to render smooth, curved connections between graph vertices rather than straight edges.</p></div>
+      <div class="research-block"><h4>Mathematics &amp; Algorithms</h4><p>Combines combinatorics (pattern enumeration) with computational geometry (curve generation) into a customizable generator, entirely in Python.</p></div>
+      <div class="research-block"><h4>Applications</h4><p>Both a research exploration in graph-based generative design and a standalone artistic tool.</p></div>
+    </div>
+
+    <div class="research-card">
+      <div class="research-top">
+        <span class="research-title">Petal Graphs — Symmetric Graph Generation</span>
+        <span class="research-tag">Independent research</span>
+      </div>
+      <div class="research-block"><h4>Geometry</h4><p>Generates symmetric circular "petal" patterns from configurable width parameters.</p></div>
+      <div class="research-block"><h4>Graph Construction</h4><p>Plots vertices around a circular layout and connects them algorithmically based on symmetry rules.</p></div>
+      <div class="research-block"><h4>Curves</h4><p>Uses curved paths between vertices to form the petal shapes rather than straight-line connections.</p></div>
+      <div class="research-block"><h4>Algorithms &amp; Visualization</h4><p>A configurable generation algorithm contributing to the broader Hridhayakamalam project framework.</p></div>
+    </div>
+  </section>
+
+  <!-- ================= PhD publications note ================= -->
+  <section class="wrap">
+    <p style="font-size:14.5px; color:var(--ink-dim); max-width:680px;">
+      Full publication details, abstracts, and citation information are on the
+      <a href="publications.html" style="color:var(--accent);">Publications</a> page.
+    </p>
+  </section>
+
+</main>
+
+<footer id="contact">
+  <div class="wrap">
+    <div class="footer-name">Let's build something.</div>
+    <div class="footer-links">
+      <a href="mailto:bright851999@gmail.com">bright851999@gmail.com</a>
+      <a href="https://github.com/BrightonDJ" target="_blank" rel="noopener">GitHub ↗</a>
+      <a href="tel:9986825798">+91 99868 25798</a>
+      <a href="https://www.linkedin.com/in/brighton-d-1455b8153" target="_blank" rel="noopener">LinkedIn ↗</a>
+    </div>
+    <div class="footer-note">Tamil (native) · English (proficient)</div>
+  </div>
+</footer>
+
+</body>
+</html>
