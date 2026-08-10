@@ -26,6 +26,11 @@
     overflow-x:hidden;
   }
 
+  /* ---------- alignment utilities ---------- */
+  .text-center{ text-align:center; }
+  .text-right{ text-align:right; }
+  .text-left{ text-align:left; }
+
   @media (prefers-reduced-motion: reduce){
     html{scroll-behavior:auto;}
     *{animation-duration:0.01ms !important; transition-duration:0.01ms !important;}
