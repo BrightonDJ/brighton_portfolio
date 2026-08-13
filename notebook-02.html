@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Why Oriented Object Detection Is Different — Research Notebook — Brighton D</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="base.css">
+</head>
+<body>
+
+<header>
+  <nav class="wrap">
+    <a href="index.html" class="nav-mark">brighton<span>.d</span></a>
+    <ul class="nav-links">
+      <li><a href="about.html">About</a></li>
+      <li><a href="projects.html">Projects</a></li>
+      <li><a href="research.html">Research</a></li>
+      <li><a href="publications.html">Publications</a></li>
+      <li><a href="notebook.html" class="active">Research Notebook</a></li>
+      <li><a href="gallery.html">Lab</a></li>
+      <li><a href="skills.html">Skills</a></li>
+      <li><a href="resume.html">Resume</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+  </nav>
+</header>
+
+<div class="wrap crumb"><a href="index.html">Home</a> / <a href="notebook.html">Research Notebook</a> / Why Oriented Object Detection Is Different</div>
+
+<main>
+  <section class="wrap page-header" style="padding-bottom:12px;">
+    <div class="article-meta"><span class="tag">Research Note</span> · Computer Vision · Object Detection · 02 of 5</div>
+    <h1 class="page-title" style="font-size:clamp(30px,4.5vw,42px);">Why Oriented Object Detection Is Different</h1>
+  </section>
+
+  <section class="wrap article-body" style="padding-top:12px;">
+
+    <p class="lead">A conventional object detector usually represents an object using a horizontal bounding box. For many natural images, this is sufficient.</p>
+    <p>But consider aerial imagery. A vehicle may appear at an arbitrary angle. A ship can be aligned diagonally with respect to the image. Buildings, aircraft, roads, and other elongated structures can have orientations that vary continuously.</p>
+    <p>A horizontal rectangle can still contain the object — but it may contain a significant amount of irrelevant background. That changes the detection problem.</p>
+
+    <h2>Horizontal versus oriented boxes</h2>
+    <p>A conventional bounding box can be represented as</p>
+    <div class="article-eq">B = (x, y, w, h)</div>
+    <p>An oriented bounding box introduces an additional parameter:</p>
+    <div class="article-eq">B = (x, y, w, h, θ)</div>
+    <p>The angle θ describes the orientation of the object. At first glance, this looks like a small modification. It is not. The additional parameter introduces a geometric degree of freedom that affects localization, regression, matching, overlap calculation, and potentially the representation learned by the network.</p>
+
+    <h2>Why orientation matters</h2>
+    <p>Suppose an elongated object is rotated by 45°. A horizontal bounding box must expand to contain the rotated object. This can increase the amount of background included inside the box. That affects several stages of detection.</p>
+
+    <h3>Localization</h3>
+    <p>The detector must estimate both position and orientation.</p>
+    <h3>Regression</h3>
+    <p>The model must learn a representation that behaves sensibly as the angle changes.</p>
+    <h3>Matching</h3>
+    <p>Predicted and ground-truth boxes must be compared using geometry that accounts for rotation.</p>
+    <h3>Evaluation</h3>
+    <p>Overlap metrics need to consider the actual shape and orientation of the regions.</p>
+
+    <p>So oriented detection isn't ordinary detection with one extra number tacked on — it's a different geometric formulation of the localization problem entirely.</p>
+
+    <h2>The angle problem</h2>
+    <p>Angles introduce another interesting mathematical property. Consider θ = 1° and θ = 359°. Numerically, these values differ by 358°. Geometrically, however, the orientations are only 2° apart.</p>
+    <p>This is a periodicity problem. A naïve regression formulation may therefore create undesirable behaviour around the angular boundary. This is one reason orientation-aware detection often requires careful consideration of angle representation and loss design.</p>
+
+    <h2>Representation matters</h2>
+    <p>There are multiple ways to represent an oriented rectangle. One approach is the parameterization (x, y, w, h, θ). Another is to represent the four corner coordinates (x₁,y₁), ..., (x₄,y₄).</p>
+    <p>The choice of representation affects optimization. A good representation should ideally provide:</p>
+    <ul>
+      <li>stable learning behaviour</li>
+      <li>unambiguous geometry</li>
+      <li>sensible gradients</li>
+      <li>consistent treatment of equivalent orientations</li>
+    </ul>
+    <p>This is an example of a broader principle in machine learning:</p>
+    <em class="q">The representation of a problem can be as important as the model solving it.</em>
+
+    <h2>Why aerial imagery makes the problem harder</h2>
+    <p>Aerial imagery introduces additional challenges:</p>
+    <ul>
+      <li>objects can appear at arbitrary orientations</li>
+      <li>object scales can vary substantially</li>
+      <li>objects may be densely packed</li>
+      <li>large images can contain many instances</li>
+      <li>small objects may occupy relatively few pixels</li>
+      <li>the same object category can have substantially different visual appearances</li>
+    </ul>
+    <p>These properties make the relationship between geometry and representation particularly important.</p>
+
+    <h2>The research question</h2>
+    <p>This leads to a more interesting question than simply "which detector has the highest score?" A better research question is:</p>
+    <em class="q">What representation and learning strategy allow a detector to model object appearance, location, and orientation effectively under the geometric constraints of aerial imagery?</em>
+    <p>That question opens the door to studying different approaches to oriented detection. During my industrial AI research, I evaluated several established approaches in this area, including ReDet, ORCNN, Strip R-CNN, STD, and Oriented-DETR. These methods were studied and evaluated as part of the research process; they should not be confused with the hybrid approach I independently investigated.</p>
+
+    <h2>Beyond the bounding box</h2>
+    <p>The deeper lesson is that computer vision problems often contain hidden mathematical structure. Object detection appears to be a recognition problem. Oriented object detection reveals that it is also a geometry problem.</p>
+    <p>This is one reason I find computer vision particularly interesting: it sits at the intersection of</p>
+    <div class="article-boxed">Geometry + Optimization + Representation Learning + Visual Semantics</div>
+
+    <div class="article-takeaway">
+      <h4>Research takeaway</h4>
+      <p>When the physical structure of an object matters, the representation used by the detector must respect that structure. Oriented object detection is therefore a useful example of how mathematical formulation directly influences machine-learning design.</p>
+    </div>
+
+    <div class="article-nav">
+      <a href="notebook-01.html">← From Mathematics to Computer Vision</a>
+      <a href="notebook-03.html">Next: Rotation, Geometry &amp; Representation →</a>
+    </div>
+
+  </section>
+</main>
+
+<footer id="contact">
+  <div class="wrap">
+    <div class="footer-name">Let's build something.</div>
+    <div class="footer-links">
+      <a href="mailto:bright851999@gmail.com">bright851999@gmail.com</a>
+      <a href="https://github.com/BrightonDJ" target="_blank" rel="noopener">GitHub ↗</a>
+      <a href="tel:9986825798">+91 99868 25798</a>
+      <a href="https://www.linkedin.com/in/brighton-d-1455b8153" target="_blank" rel="noopener">LinkedIn ↗</a>
+      <a href="https://scholar.google.com/citations?user=t0KGAxAAAAAJ&hl=en" target="_blank" rel="noopener">Google Scholar ↗</a>
+      <a href="https://orcid.org/0000-0001-9185-7453" target="_blank" rel="noopener">ORCID ↗</a>
+    </div>
+    <div class="footer-note">Tamil (native) · English (proficient)</div>
+  </div>
+</footer>
+
+</body>
+</html>

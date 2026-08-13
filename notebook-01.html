@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>From Mathematics to Computer Vision — Research Notebook — Brighton D</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="base.css">
+</head>
+<body>
+
+<header>
+  <nav class="wrap">
+    <a href="index.html" class="nav-mark">brighton<span>.d</span></a>
+    <ul class="nav-links">
+      <li><a href="about.html">About</a></li>
+      <li><a href="projects.html">Projects</a></li>
+      <li><a href="research.html">Research</a></li>
+      <li><a href="publications.html">Publications</a></li>
+      <li><a href="notebook.html" class="active">Research Notebook</a></li>
+      <li><a href="gallery.html">Lab</a></li>
+      <li><a href="skills.html">Skills</a></li>
+      <li><a href="resume.html">Resume</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+  </nav>
+</header>
+
+<div class="wrap crumb"><a href="index.html">Home</a> / <a href="notebook.html">Research Notebook</a> / From Mathematics to Computer Vision</div>
+
+<main>
+  <section class="wrap page-header" style="padding-bottom:12px;">
+    <div class="article-meta"><span class="tag">Research Note</span> · Mathematics · Computer Vision · 01 of 5</div>
+    <h1 class="page-title" style="font-size:clamp(30px,4.5vw,42px);">From Mathematics to Computer Vision</h1>
+  </section>
+
+  <section class="wrap article-body" style="padding-top:12px;">
+
+    <p class="lead">My transition from mathematics to artificial intelligence did not begin with a particular framework or model. It began with a question:</p>
+
+    <em class="q">Can mathematical structures be used to understand visual information?</em>
+
+    <p>That question gradually led me from mathematical modelling and image processing toward computer vision and deep learning.</p>
+
+    <h2>Mathematics as a way of thinking about images</h2>
+    <p>An image can be treated as more than a collection of pixels. At a basic level, a grayscale image can be represented as a function</p>
+    <div class="article-eq">I : Ω → ℝ</div>
+    <p>where Ω represents the spatial domain of the image. For a colour image, the function extends to multiple channels:</p>
+    <div class="article-eq">I : Ω → ℝ<sup>C</sup></div>
+    <p>This simple representation already introduces several mathematical questions. How do we represent structure? How do we measure similarity? How do we detect boundaries? How do we describe shape? How do we make a system invariant or equivariant to transformations? These questions appear repeatedly throughout computer vision.</p>
+
+    <h2>From pixels to structure</h2>
+    <p>Traditional image processing provides a useful way of thinking about this transition. Operations such as filtering, thresholding, segmentation, contour extraction, morphological processing, and geometric analysis attempt to transform raw pixel information into increasingly meaningful representations.</p>
+    <p>Deep learning changes the mechanism rather than eliminating the underlying problem. Instead of manually defining every feature, a neural network learns representations from data. A convolution can be expressed conceptually as</p>
+    <div class="article-eq">Y(i,j) = Σᵤ Σᵥ K(u,v) · X(i−u, j−v)</div>
+    <p>where X is an input feature map and K is a learnable kernel. The operation is computationally simple, but its importance comes from what happens when many such transformations are composed. Low-level patterns can become intermediate structures, which can eventually become representations useful for classification or localization.</p>
+
+    <h2>Where mathematics becomes particularly important</h2>
+    <p>Object detection is a good example of this. A detector has to answer more than one question:</p>
+    <em class="q">"What object is present?"</em>
+    <p>It is also answering:</p>
+    <em class="q">"Where is it?"</em>
+    <p>For oriented object detection, another question appears:</p>
+    <em class="q">"How is it oriented?"</em>
+    <p>A bounding box can therefore be represented using parameters such as</p>
+    <div class="article-eq">(x, y, w, h, θ)</div>
+    <p>where (x,y) describe position, (w,h) describe dimensions, and θ represents orientation. This small addition changes the geometry of the problem considerably. The model must learn not only semantic information but also spatial relationships and orientation.</p>
+
+    <h2>From geometry to learning</h2>
+    <p>This is one of the areas where my mathematical background became particularly useful. Questions about rotations, transformations, angles, intersections, optimization, and geometric representations are not separate from machine learning — they are part of the problem itself.</p>
+    <p>For example, when two rotated bounding boxes are compared, their overlap is no longer a simple axis-aligned rectangle intersection. The geometry of the rotated regions becomes important. Similarly, angle representation introduces questions about periodicity — an angle near 0° and one near 360° may be numerically far apart while being geometrically close. These are mathematical issues that directly influence model design and loss functions.</p>
+
+    <h2>Mathematics does not replace experimentation</h2>
+    <p>At the same time, mathematical elegance is not sufficient. A formulation can be theoretically attractive and still perform poorly in practice. That is why I approach AI research through three connected layers:</p>
+    <div class="article-boxed">Mathematical Understanding<br>↓<br>Experimental Evaluation<br>↓<br>Engineering Implementation</div>
+    <p>Mathematics helps formulate the problem. Experiments reveal whether the formulation works. Engineering determines whether the resulting system can actually be used.</p>
+
+    <h2>The direction of my research</h2>
+    <p>This perspective has shaped my work across several areas: image processing, mathematical modelling, computer vision, object detection, oriented object detection, deep learning, enterprise AI, retrieval-augmented generation, and agentic AI systems.</p>
+    <p>The technologies have changed, but the underlying approach has remained similar: <strong>understand the structure of the problem before trying to optimize the solution.</strong> That is perhaps the most useful connection between my mathematical background and my work in AI.</p>
+
+    <div class="article-takeaway">
+      <h4>Research takeaway</h4>
+      <p>AI models can be treated as mathematical and computational systems rather than black boxes. Understanding the geometry, representations, assumptions, and optimization mechanisms behind a model makes it easier to evaluate its behaviour — and to identify where a different approach may be necessary.</p>
+    </div>
+
+    <div class="article-nav">
+      <span></span>
+      <a href="notebook-02.html">Next: Why Oriented Object Detection Is Different →</a>
+    </div>
+
+  </section>
+</main>
+
+<footer id="contact">
+  <div class="wrap">
+    <div class="footer-name">Let's build something.</div>
+    <div class="footer-links">
+      <a href="mailto:bright851999@gmail.com">bright851999@gmail.com</a>
+      <a href="https://github.com/BrightonDJ" target="_blank" rel="noopener">GitHub ↗</a>
+      <a href="tel:9986825798">+91 99868 25798</a>
+      <a href="https://www.linkedin.com/in/brighton-d-1455b8153" target="_blank" rel="noopener">LinkedIn ↗</a>
+      <a href="https://scholar.google.com/citations?user=t0KGAxAAAAAJ&hl=en" target="_blank" rel="noopener">Google Scholar ↗</a>
+      <a href="https://orcid.org/0000-0001-9185-7453" target="_blank" rel="noopener">ORCID ↗</a>
+    </div>
+    <div class="footer-note">Tamil (native) · English (proficient)</div>
+  </div>
+</footer>
+
+</body>
+</html>

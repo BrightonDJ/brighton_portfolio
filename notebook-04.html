@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Five Approaches to Oriented Object Detection — Research Notebook — Brighton D</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="base.css">
+</head>
+<body>
+
+<header>
+  <nav class="wrap">
+    <a href="index.html" class="nav-mark">brighton<span>.d</span></a>
+    <ul class="nav-links">
+      <li><a href="about.html">About</a></li>
+      <li><a href="projects.html">Projects</a></li>
+      <li><a href="research.html">Research</a></li>
+      <li><a href="publications.html">Publications</a></li>
+      <li><a href="notebook.html" class="active">Research Notebook</a></li>
+      <li><a href="gallery.html">Lab</a></li>
+      <li><a href="skills.html">Skills</a></li>
+      <li><a href="resume.html">Resume</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+  </nav>
+</header>
+
+<div class="wrap crumb"><a href="index.html">Home</a> / <a href="notebook.html">Research Notebook</a> / Five Approaches to Oriented Object Detection</div>
+
+<main>
+  <section class="wrap page-header" style="padding-bottom:12px;">
+    <div class="article-meta"><span class="tag">Research Note</span> · Comparative Analysis · Computer Vision · 04 of 5</div>
+    <h1 class="page-title" style="font-size:clamp(30px,4.5vw,42px);">Five Approaches to Oriented Object Detection</h1>
+  </section>
+
+  <section class="wrap article-body" style="padding-top:12px;">
+
+    <p class="lead">One of the most useful parts of my industrial computer vision research wasn't training a single model — it was comparing different ways of approaching the same problem.</p>
+    <p>For oriented object detection, I studied and evaluated several established methods, including ReDet, ORCNN, Strip R-CNN, STD, and Oriented-DETR. These are <strong>published methods that I evaluated or analyzed</strong>, not models that I claim to have created.</p>
+    <p>The interesting question wasn't which method scored highest. It was:</p>
+    <em class="q">What fundamental idea does each approach use to deal with orientation?</em>
+
+    <h2>ReDet</h2>
+    <p>ReDet approaches oriented detection through rotation-aware feature representation. The central motivation is that visual features should preserve useful information under changes in object orientation. This connects naturally to the mathematical concept of rotation equivariance.</p>
+    <p>A useful conceptual formulation is:</p>
+    <div class="article-eq">f(Rx) ≈ R′f(x)</div>
+    <p>where R represents a transformation in the input and R′ represents the corresponding transformation in feature space. The important idea is not the exact implementation, but the attempt to make feature representations more compatible with rotated objects.</p>
+    <div class="article-insight-box">
+      <h5>Research insight</h5>
+      <p>Rotation should not necessarily be treated as noise. It can be part of the structure that the model needs to represent.</p>
+    </div>
+
+    <h2>ORCNN</h2>
+    <p>ORCNN introduces orientation-aware reasoning into the detection process. The broader idea is to move beyond simply predicting horizontal object extents and explicitly account for orientation. This raises an important design question:</p>
+    <em class="q">How should an object's orientation be represented so that the network can learn it reliably?</em>
+    <p>The answer affects regression, feature extraction, and localization.</p>
+    <div class="article-insight-box">
+      <h5>Research insight</h5>
+      <p>Adding orientation to the output space changes more than the output layer. It changes the geometry of the learning problem.</p>
+    </div>
+
+    <h2>Strip R-CNN</h2>
+    <p>Strip R-CNN explores the use of structured representations that are particularly relevant to elongated and oriented objects. This is interesting because many aerial objects are not visually isotropic — their appearance may have a strong directional structure.</p>
+    <p>A useful general observation is that spatial structure can be represented at different scales and orientations rather than treating every object as an arbitrary rectangular region.</p>
+    <div class="article-insight-box">
+      <h5>Research insight</h5>
+      <p>Object geometry can influence the type of feature representation that is useful for detection.</p>
+    </div>
+
+    <h2>STD</h2>
+    <p>STD represents another direction in oriented detection research, where spatial transformations and orientation-related representation are incorporated into the detection process. The broader principle is:</p>
+    <div class="article-boxed">feature → spatial transformation → better alignment → prediction</div>
+    <p>This reflects a recurring idea in computer vision:</p>
+    <em class="q">If the representation is poorly aligned with the object geometry, the detector has to learn around that mismatch.</em>
+    <div class="article-insight-box">
+      <h5>Research insight</h5>
+      <p>Explicitly modelling spatial alignment can reduce the burden placed on subsequent detection stages.</p>
+    </div>
+
+    <h2>Oriented-DETR</h2>
+    <p>Oriented-DETR brings oriented detection into the transformer-based object detection framework. Transformer-based detection introduces a different perspective from conventional region-based approaches. Attention mechanisms allow the model to reason about relationships between elements of a representation. Conceptually, self-attention can be expressed as</p>
+    <div class="article-eq">Attention(Q,K,V) = softmax(QKᵀ / √dₖ) V</div>
+    <p>For detection, this creates opportunities to model relationships between object queries and visual features. The challenge is then to incorporate orientation-aware localization into this formulation.</p>
+    <div class="article-insight-box">
+      <h5>Research insight</h5>
+      <p>Transformers provide a different mechanism for global relational reasoning, but geometric problems do not disappear simply because attention is introduced.</p>
+    </div>
+
+    <h2>What the comparison taught me</h2>
+    <p>The five approaches illustrate several different strategies:</p>
+    <table class="article-table">
+      <tr><th>Method</th><th>Broad research direction</th></tr>
+      <tr><td>ReDet</td><td>Rotation-aware representation</td></tr>
+      <tr><td>ORCNN</td><td>Orientation-aware detection</td></tr>
+      <tr><td>Strip R-CNN</td><td>Structured spatial representation</td></tr>
+      <tr><td>STD</td><td>Spatial transformation / alignment</td></tr>
+      <tr><td>Oriented-DETR</td><td>Transformer-based oriented detection</td></tr>
+    </table>
+    <p>The important observation is that there is no single "orientation problem." There are several interconnected problems:</p>
+    <div class="article-boxed">Representation + Geometry + Localization + Feature Alignment + Global Reasoning</div>
+    <p>Different methods emphasize different parts of this space.</p>
+
+    <h2>Evaluation versus invention</h2>
+    <p>This distinction is important in research. Evaluating an existing architecture can reveal:</p>
+    <ul>
+      <li>what assumptions it makes</li>
+      <li>where it performs well</li>
+      <li>where it struggles</li>
+      <li>what computational trade-offs it introduces</li>
+      <li>which ideas may be useful in another architecture</li>
+    </ul>
+    <p>Research does not require inventing every component from scratch. Sometimes the most valuable contribution comes from understanding existing methods deeply enough to identify a different combination of ideas. That was particularly useful when investigating hybrid approaches to oriented object detection.</p>
+
+    <div class="article-takeaway">
+      <h4>Research takeaway</h4>
+      <p>Comparing models isn't a leaderboard exercise. Studying different architectures reveals how different mathematical and representational choices shape the same underlying computer vision problem.</p>
+    </div>
+
+    <div class="article-nav">
+      <a href="notebook-03.html">← Rotation, Geometry &amp; Representation</a>
+      <a href="notebook-05.html">Next: From RAG to Agentic RAG →</a>
+    </div>
+
+  </section>
+</main>
+
+<footer id="contact">
+  <div class="wrap">
+    <div class="footer-name">Let's build something.</div>
+    <div class="footer-links">
+      <a href="mailto:bright851999@gmail.com">bright851999@gmail.com</a>
+      <a href="https://github.com/BrightonDJ" target="_blank" rel="noopener">GitHub ↗</a>
+      <a href="tel:9986825798">+91 99868 25798</a>
+      <a href="https://www.linkedin.com/in/brighton-d-1455b8153" target="_blank" rel="noopener">LinkedIn ↗</a>
+      <a href="https://scholar.google.com/citations?user=t0KGAxAAAAAJ&hl=en" target="_blank" rel="noopener">Google Scholar ↗</a>
+      <a href="https://orcid.org/0000-0001-9185-7453" target="_blank" rel="noopener">ORCID ↗</a>
+    </div>
+    <div class="footer-note">Tamil (native) · English (proficient)</div>
+  </div>
+</footer>
+
+</body>
+</html>

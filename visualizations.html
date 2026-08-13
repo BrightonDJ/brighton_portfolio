@@ -118,14 +118,8 @@
       <li><a href="projects.html">Projects</a></li>
       <li><a href="research.html">Research</a></li>
       <li><a href="publications.html">Publications</a></li>
-      <li><a href="notebook.html">Notebook</a></li>
-      <li class="nav-dropdown">
-        <a href="gallery.html" class="active">Lab</a>
-        <div class="nav-dropdown-menu">
-          <a href="gallery.html">Architecture Gallery</a>
-          <a href="visualizations.html">Interactive Visualizations</a>
-        </div>
-      </li>
+      <li><a href="notebook.html">Research Notebook</a></li>
+      <li><a href="gallery.html" class="active">Lab</a></li>
       <li><a href="skills.html">Skills</a></li>
       <li><a href="resume.html">Resume</a></li>
       <li><a href="contact.html">Contact</a></li>
@@ -138,13 +132,17 @@
 <main>
 
   <section class="wrap page-header" style="padding-bottom:24px;">
-    <div class="page-eyebrow">Interactive Visualizations</div>
+    <div class="page-eyebrow">Lab</div>
     <h1 class="page-title">Hands-on explanations of the math.</h1>
     <p class="page-sub">
       Small interactive demos for the concepts covered on the
       <a href="research.html#math" style="color:var(--accent);">Research</a> page —
       built to give intuition, not to reproduce any client data.
     </p>
+    <div class="research-subnav" style="margin-top:20px;">
+      <a href="gallery.html">Architecture Gallery</a>
+      <a href="visualizations.html" class="active">Interactive Visualizations</a>
+    </div>
   </section>
 
   <section class="wrap" style="padding-top:0; border-top:none;">
@@ -170,7 +168,7 @@
           <input type="range" id="angleSlider" min="0" max="180" value="0">
           <span class="viz-readout" id="angleReadout">0°</span>
         </div>
-        <div class="viz-desc text-center">
+        <div class="viz-desc" style="text-align:center;">
           <span style="color:#5C5F5B;">— — —</span> axis-aligned box &nbsp;&nbsp;
           <span style="color:#E0A458;">———</span> rotated box
         </div>
@@ -205,7 +203,7 @@
           <path id="boxLossPath" fill="none" stroke="#E0A458" stroke-width="2"/>
           <path id="totalLossPath" fill="none" stroke="#B79AE0" stroke-width="2"/>
         </svg>
-        <div class="viz-desc text-center">
+        <div class="viz-desc" style="text-align:center;">
           <span style="color:#5FA8D3;">———</span> classification &nbsp;&nbsp;
           <span style="color:#E0A458;">———</span> box regression &nbsp;&nbsp;
           <span style="color:#B79AE0;">———</span> total
@@ -253,9 +251,9 @@
           <input type="range" id="iouAngleB" min="-60" max="60" value="20">
           <span class="viz-readout" id="iouBReadout">20°</span>
         </div>
-        <div class="viz-desc text-center">
+        <div class="viz-desc" style="text-align:center;">
           Approximate IoU: <span id="iouValue" style="color:var(--accent); font-family:var(--mono);">—</span>
-          <span class="conceptual-badge">Conceptual Demonstration</span>
+          <span class="conceptual-badge" style="margin-left:8px;">Conceptual Demonstration</span>
         </div>
       </div>
     </div>
@@ -292,7 +290,7 @@
           <button class="viz-btn" id="matchBtn">Match (lowest cost)</button>
           <button class="viz-btn" id="resetMatchBtn">Reset</button>
         </div>
-        <div class="viz-desc text-center">
+        <div class="viz-desc" style="text-align:center;">
           Each prediction is assigned to exactly one ground-truth box, minimizing total assignment cost.
         </div>
       </div>
@@ -335,6 +333,8 @@
       <a href="https://github.com/BrightonDJ" target="_blank" rel="noopener">GitHub ↗</a>
       <a href="tel:9986825798">+91 99868 25798</a>
       <a href="https://www.linkedin.com/in/brighton-d-1455b8153" target="_blank" rel="noopener">LinkedIn ↗</a>
+      <a href="https://scholar.google.com/citations?user=t0KGAxAAAAAJ&hl=en" target="_blank" rel="noopener">Google Scholar ↗</a>
+      <a href="https://orcid.org/0000-0001-9185-7453" target="_blank" rel="noopener">ORCID ↗</a>
     </div>
     <div class="footer-note">Tamil (native) · English (proficient)</div>
   </div>
@@ -445,18 +445,31 @@
   const flowDot = document.getElementById('flowDot');
   const playBtn = document.getElementById('playFlowBtn');
   let flowAnim = null;
+  let flowRunning = false;
+  let flowIndex = 0;
   const flowPath = [[20,70],[75,70],[130,70],[225,70],[280,70],[335,70],[430,70],[485,70],[540,70]];
-  function playFlow(){
-    let i = 0;
-    if(flowAnim) clearInterval(flowAnim);
-    flowAnim = setInterval(() => {
-      if(i >= flowPath.length){ i = 0; }
-      flowDot.setAttribute('cx', flowPath[i][0]);
-      flowDot.setAttribute('cy', flowPath[i][1]);
-      i++;
-    }, 260);
+  function stepFlow(){
+    if(flowIndex >= flowPath.length){ flowIndex = 0; }
+    flowDot.setAttribute('cx', flowPath[flowIndex][0]);
+    flowDot.setAttribute('cy', flowPath[flowIndex][1]);
+    flowIndex++;
   }
-  playBtn.addEventListener('click', () => { playFlow(); });
+  function playFlow(){
+    if(flowAnim) clearInterval(flowAnim);
+    flowAnim = setInterval(stepFlow, 260);
+    flowRunning = true;
+    playBtn.textContent = '⏸ Pause';
+    playBtn.classList.add('active');
+  }
+  function pauseFlow(){
+    if(flowAnim) clearInterval(flowAnim);
+    flowRunning = false;
+    playBtn.textContent = '▶ Play';
+    playBtn.classList.remove('active');
+  }
+  playBtn.addEventListener('click', () => {
+    if(flowRunning){ pauseFlow(); } else { playFlow(); }
+  });
   playFlow();
 
   // ---------- Rotated IoU ----------

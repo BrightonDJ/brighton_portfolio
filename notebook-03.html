@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rotation, Geometry and the Representation of Orientation — Research Notebook — Brighton D</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="base.css">
+</head>
+<body>
+
+<header>
+  <nav class="wrap">
+    <a href="index.html" class="nav-mark">brighton<span>.d</span></a>
+    <ul class="nav-links">
+      <li><a href="about.html">About</a></li>
+      <li><a href="projects.html">Projects</a></li>
+      <li><a href="research.html">Research</a></li>
+      <li><a href="publications.html">Publications</a></li>
+      <li><a href="notebook.html" class="active">Research Notebook</a></li>
+      <li><a href="gallery.html">Lab</a></li>
+      <li><a href="skills.html">Skills</a></li>
+      <li><a href="resume.html">Resume</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+  </nav>
+</header>
+
+<div class="wrap crumb"><a href="index.html">Home</a> / <a href="notebook.html">Research Notebook</a> / Rotation, Geometry and the Representation of Orientation</div>
+
+<main>
+  <section class="wrap page-header" style="padding-bottom:12px;">
+    <div class="article-meta"><span class="tag">Research Note</span> · Mathematical Foundations · Computer Vision · 03 of 5</div>
+    <h1 class="page-title" style="font-size:clamp(28px,4.2vw,40px);">Rotation, Geometry and the Representation of Orientation</h1>
+  </section>
+
+  <section class="wrap article-body" style="padding-top:12px;">
+
+    <p class="lead">Rotation is one of those transformations that appears simple visually but becomes surprisingly interesting mathematically when introduced into a learning system.</p>
+    <p>For a point p = [x, y], a rotation by an angle θ about the origin can be represented by the rotation matrix</p>
+    <div class="article-eq">R(θ) = [ cos θ  −sin θ ]<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[ sin θ&nbsp;&nbsp;&nbsp;cos θ ]</div>
+    <p>The rotated point is p′ = R(θ)p. This simple matrix is fundamental to understanding oriented object detection.</p>
+
+    <h2>Rotating a bounding box</h2>
+    <p>Consider a rectangle centred at c = (x꜀, y꜀) with width w and height h. Its four corners can initially be expressed relative to its centre:</p>
+    <div class="article-eq">(±w/2, ±h/2)</div>
+    <p>After rotation, each corner becomes</p>
+    <div class="article-eq">p′ᵢ = R(θ)pᵢ + c</div>
+    <p>Thus an oriented rectangle is not merely a horizontal rectangle with an extra number attached to it. The angle changes the actual coordinates of the region.</p>
+
+    <h2>Why the representation matters</h2>
+    <p>Suppose the detector predicts (x, y, w, h, θ). A small error in θ may produce a significant spatial displacement at the corners when w or h is large. This means angular error and localization error are coupled geometrically.</p>
+    <p>For an elongated object, even a relatively small angular deviation can noticeably reduce overlap. This is one reason why oriented detection cannot be understood purely as five independent regression variables.</p>
+
+    <h2>Rotation and feature representations</h2>
+    <p>There is another question: if an object rotates in the image, what should happen to its learned representation?</p>
+    <p>For an invariant representation, we would ideally have</p>
+    <div class="article-eq">f(Tx) = f(x)</div>
+    <p>where T represents a transformation such as rotation. For an equivariant representation, the desired relationship is instead</p>
+    <div class="article-eq">f(Tx) = T′f(x)</div>
+    <p>where T′ describes the corresponding transformation in feature space. The distinction is important.</p>
+    <h3>Invariance</h3>
+    <p>The representation remains unchanged under the transformation.</p>
+    <h3>Equivariance</h3>
+    <p>The representation changes predictably according to the transformation.</p>
+    <p>Object recognition may benefit from invariance. Spatial prediction often benefits from preserving transformation information. This creates an important design question for oriented detection:</p>
+    <em class="q">Should orientation information be removed, preserved, or explicitly modelled?</em>
+
+    <h2>Rotation and convolution</h2>
+    <p>A standard convolution is translation-equivariant under idealized conditions, but rotation does not automatically have the same property. If an image is rotated, the response of a conventional convolutional filter does not necessarily transform in a predictable way. This motivates research into rotation-aware representations and architectures.</p>
+    <p>However, rotation handling does not have to be solved in a single way. It can be addressed through:</p>
+    <ul>
+      <li>data augmentation</li>
+      <li>feature transformations</li>
+      <li>rotation-aware representations</li>
+      <li>specialized convolutional operations</li>
+      <li>geometric parameterizations</li>
+      <li>orientation-aware losses</li>
+      <li>architectural design</li>
+    </ul>
+    <p>Each introduces different assumptions and trade-offs.</p>
+
+    <h2>The angle discontinuity</h2>
+    <p>Consider the representation θ ∈ [0, 360°). The boundary creates an artificial discontinuity. For example, 359° → 0° represents a tiny physical rotation but a large numerical change.</p>
+    <p>One possible strategy is to represent the angle using its sine and cosine:</p>
+    <div class="article-eq">(sin θ, cos θ)</div>
+    <p>Now neighbouring orientations remain geometrically close in the representation. The angle can subsequently be recovered using</p>
+    <div class="article-eq">θ = atan2(sin θ, cos θ)</div>
+    <p>This illustrates a general principle:</p>
+    <em class="q">A representation can encode the geometry of a variable more naturally than its raw numerical parameterization.</em>
+
+    <h2>Rotated IoU</h2>
+    <p>Evaluation introduces another geometric component. For two oriented boxes A and B,</p>
+    <div class="article-eq">IoU(A,B) = |A ∩ B| / |A ∪ B|</div>
+    <p>The equation is simple. Computing the intersection of two rotated rectangles is not. The intersection may form a polygon rather than a rectangle, requiring geometric intersection and area calculations. Therefore, even a familiar metric such as IoU becomes more computationally involved when orientation is introduced.</p>
+    <p>You can see this interactively in the <a href="visualizations.html" style="color:var(--accent);">Rotated IoU demo</a> in the Lab.</p>
+
+    <h2>Why I find this important</h2>
+    <p>This is one of the areas where mathematical reasoning provides practical value. A model may be described using a handful of architectural components, but its behaviour is ultimately constrained by mathematical representations:</p>
+    <div class="article-boxed">Image → Representation → Transformation → Prediction → Geometric Evaluation</div>
+    <p>Understanding that chain makes it easier to ask better research questions. Instead of asking only "which model performs better?" we can ask "which representation makes the underlying geometry easier for the model to learn?" That is a much more interesting question.</p>
+
+    <div class="article-takeaway">
+      <h4>Research takeaway</h4>
+      <p>Many computer vision problems become clearer once their geometric structure is made explicit. Rotation touches the representation, the optimization landscape, the evaluation geometry, and the behaviour of learned features — treating it as just another feature undersells how much it actually changes.</p>
+    </div>
+
+    <div class="article-nav">
+      <a href="notebook-02.html">← Why Oriented Object Detection Is Different</a>
+      <a href="notebook-04.html">Next: Five Approaches to Oriented Detection →</a>
+    </div>
+
+  </section>
+</main>
+
+<footer id="contact">
+  <div class="wrap">
+    <div class="footer-name">Let's build something.</div>
+    <div class="footer-links">
+      <a href="mailto:bright851999@gmail.com">bright851999@gmail.com</a>
+      <a href="https://github.com/BrightonDJ" target="_blank" rel="noopener">GitHub ↗</a>
+      <a href="tel:9986825798">+91 99868 25798</a>
+      <a href="https://www.linkedin.com/in/brighton-d-1455b8153" target="_blank" rel="noopener">LinkedIn ↗</a>
+      <a href="https://scholar.google.com/citations?user=t0KGAxAAAAAJ&hl=en" target="_blank" rel="noopener">Google Scholar ↗</a>
+      <a href="https://orcid.org/0000-0001-9185-7453" target="_blank" rel="noopener">ORCID ↗</a>
+    </div>
+    <div class="footer-note">Tamil (native) · English (proficient)</div>
+  </div>
+</footer>
+
+</body>
+</html>

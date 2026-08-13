@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>From RAG to Agentic RAG — Research Notebook — Brighton D</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="base.css">
+</head>
+<body>
+
+<header>
+  <nav class="wrap">
+    <a href="index.html" class="nav-mark">brighton<span>.d</span></a>
+    <ul class="nav-links">
+      <li><a href="about.html">About</a></li>
+      <li><a href="projects.html">Projects</a></li>
+      <li><a href="research.html">Research</a></li>
+      <li><a href="publications.html">Publications</a></li>
+      <li><a href="notebook.html" class="active">Research Notebook</a></li>
+      <li><a href="gallery.html">Lab</a></li>
+      <li><a href="skills.html">Skills</a></li>
+      <li><a href="resume.html">Resume</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+  </nav>
+</header>
+
+<div class="wrap crumb"><a href="index.html">Home</a> / <a href="notebook.html">Research Notebook</a> / From RAG to Agentic RAG</div>
+
+<main>
+  <section class="wrap page-header" style="padding-bottom:12px;">
+    <div class="article-meta"><span class="tag">Research Note</span> · Enterprise AI · Retrieval-Augmented Generation · 05 of 5</div>
+    <h1 class="page-title" style="font-size:clamp(30px,4.5vw,42px);">From RAG to Agentic RAG</h1>
+  </section>
+
+  <section class="wrap article-body" style="padding-top:12px;">
+
+    <p class="lead">Large language models are remarkably capable, but a language model alone does not automatically have access to an organization's private knowledge, current documents, databases, or operational systems.</p>
+    <p>Retrieval-Augmented Generation provides one solution. The basic idea is straightforward:</p>
+    <div class="article-boxed">Question → Retrieve Information → Generate Answer</div>
+    <p>But as the complexity of the task increases, this pipeline starts to reveal its limitations. That is where agentic approaches become interesting.</p>
+
+    <h2>The basic RAG pipeline</h2>
+    <p>A conventional RAG system can be represented as:</p>
+    <div class="article-flow">User Question
+      ↓
+Query Processing
+      ↓
+Retriever
+      ↓
+Relevant Documents
+      ↓
+Context Construction
+      ↓
+Language Model
+      ↓
+Answer</div>
+    <p>The retriever provides external context to the language model. This can reduce hallucination and allow the system to answer questions using domain-specific information that was not part of the model's original training data.</p>
+
+    <h2>But retrieval is not reasoning</h2>
+    <p>Suppose an enterprise user asks:</p>
+    <em class="q">"Compare the latest quality reports, identify recurring failures, determine which production line is most affected, and recommend what should be investigated next."</em>
+    <p>A simple retrieval pipeline may retrieve relevant documents. But the task itself involves multiple steps: identify the relevant reports, extract information, compare findings, aggregate evidence, reason about patterns, decide what additional information is needed, and formulate a conclusion.</p>
+    <p>This is more than retrieval. It is a workflow.</p>
+
+    <h2>Agentic RAG</h2>
+    <p>An agentic RAG system can introduce an iterative loop:</p>
+    <div class="article-flow">                User Query
+                    ↓
+                  Agent
+                    ↓
+            Decide what to do
+                    ↓
+    ┌───────────────┼───────────────┐
+    ↓               ↓               ↓
+Retrieve       Query DB         Use Tool
+    │               │               │
+    └───────────────┼───────────────┘
+                    ↓
+              Observe Result
+                    ↓
+                Evaluate
+                    ↓
+            Need more work?
+              /          \
+            Yes           No
+             │             │
+             └──→ Agent    ↓
+                        Answer</div>
+    <p>The key change is that the system is no longer limited to a fixed sequence. It can decide what action should happen next.</p>
+
+    <h2>Retrieval becomes a capability</h2>
+    <p>In a capability-oriented architecture, retrieval is one capability among several:</p>
+    <div class="article-flow">retrieve.search
+database.query
+document.read
+chat.generate
+code.execute
+workflow.run</div>
+    <p>The agent can select capabilities according to the task. This is conceptually different from giving an application direct access to a particular model. Instead of thinking "which model should this application call?" we can think "which capability does this task require?" That abstraction becomes particularly useful when building enterprise AI platforms.</p>
+
+    <h2>The importance of grounding</h2>
+    <p>Agentic behaviour does not automatically make a system reliable. In fact, additional autonomy can introduce additional failure modes. An agent can retrieve irrelevant information, choose an inappropriate tool, make an incorrect intermediate decision, repeat actions unnecessarily, or propagate an incorrect assumption.</p>
+    <p>Therefore, agentic systems need mechanisms for grounding, validation, observability, permissions, error handling, tool constraints, and traceability. The more actions a system can perform, the more important these controls become.</p>
+
+    <h2>RAG as a system, not just a prompt</h2>
+    <p>One of the lessons from working on enterprise RAG systems is that the language model is only one component. A practical system can involve:</p>
+    <div class="article-flow">Documents → Ingestion → Parsing → Chunking → Embedding
+   → Vector / Search Storage → Retrieval
+   → Context Construction → LLM → Agent / Workflow → Response</div>
+    <p>Around this sits another layer of infrastructure: databases, caches, APIs, authentication, logging, monitoring, containerization, and model management. This is why enterprise AI engineering is fundamentally different from building a chatbot demo.</p>
+
+    <h2>From model-centric to system-centric thinking</h2>
+    <p>A useful shift in perspective is:</p>
+    <h3>Model-centric</h3>
+    <em class="q">Which LLM should I use?</em>
+    <h3>System-centric</h3>
+    <em class="q">What capabilities does the system need, and how should those capabilities interact?</em>
+    <p>The second question leads naturally toward modular AI architectures. It also makes it easier to replace individual components without redesigning the entire application.</p>
+
+    <h2>The connection to my earlier research</h2>
+    <p>At first, computer vision and enterprise RAG may appear unrelated. One deals with images. The other deals with documents and language. But the research process has similarities. In both cases, I am interested in:</p>
+    <div class="article-boxed">Representation → Retrieval / Processing → Reasoning → Evaluation</div>
+    <p>In computer vision, the representation may be visual features. In RAG, it may be embeddings and retrieved context. In both cases, the quality of the final system depends on what information is represented, how it is transformed, and how the system uses that representation.</p>
+
+    <div class="article-takeaway">
+      <h4>Research takeaway</h4>
+      <p>RAG gives a language model access to external knowledge. Agentic RAG extends the idea by allowing a system to decide what information or tools it needs and to perform multi-step workflows. The difficult part is therefore no longer only model selection — it is designing a reliable system around the model.</p>
+    </div>
+
+    <div class="article-nav">
+      <a href="notebook-04.html">← Five Approaches to Oriented Detection</a>
+      <a href="notebook.html">Back to Research Notebook</a>
+    </div>
+
+  </section>
+</main>
+
+<footer id="contact">
+  <div class="wrap">
+    <div class="footer-name">Let's build something.</div>
+    <div class="footer-links">
+      <a href="mailto:bright851999@gmail.com">bright851999@gmail.com</a>
+      <a href="https://github.com/BrightonDJ" target="_blank" rel="noopener">GitHub ↗</a>
+      <a href="tel:9986825798">+91 99868 25798</a>
+      <a href="https://www.linkedin.com/in/brighton-d-1455b8153" target="_blank" rel="noopener">LinkedIn ↗</a>
+      <a href="https://scholar.google.com/citations?user=t0KGAxAAAAAJ&hl=en" target="_blank" rel="noopener">Google Scholar ↗</a>
+      <a href="https://orcid.org/0000-0001-9185-7453" target="_blank" rel="noopener">ORCID ↗</a>
+    </div>
+    <div class="footer-note">Tamil (native) · English (proficient)</div>
+  </div>
+</footer>
+
+</body>
+</html>

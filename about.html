@@ -8,8 +8,14 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="base.css">
+<style>
+  body{
+    --margin-art-left: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='420' viewBox='0 0 180 420'%3E%3Cg transform='translate(90,150)' stroke='%235FA8D3' stroke-width='1' fill='none'%3E%3Cline x1='-50' y1='0' x2='50' y2='0'/%3E%3Cline x1='0' y1='-50' x2='0' y2='50'/%3E%3Cpath d='M 30 0 A 30 30 0 0 0 21 -21' stroke='%23E0A458'/%3E%3Cline x1='0' y1='0' x2='21' y2='-21' stroke='%23E0A458'/%3E%3Ctext x='14' y='-8' font-family='JetBrains Mono, monospace' font-size='11' fill='%23E0A458' stroke='none'%3E%CE%B8%3C/text%3E%3C/g%3E%3Cline x1='90' y1='230' x2='90' y2='420' stroke='%23262A2E' stroke-width='1' stroke-dasharray='2 6'/%3E%3C/svg%3E");
+    --margin-art-right: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='420' viewBox='0 0 180 420'%3E%3Cg transform='translate(90,240)' font-family='JetBrains Mono, monospace' font-size='11' fill='%235FA8D3' stroke='none' text-anchor='middle'%3E%3Crect x='-46' y='-46' width='24' height='24' fill='none' stroke='%235FA8D3' stroke-width='1'/%3E%3Cline x1='-22' y1='-34' x2='-4' y2='-34' stroke='%235C5F5B' stroke-width='1'/%3E%3Cpath d='M -8 -38 L -4 -34 L -8 -30' fill='none' stroke='%235C5F5B' stroke-width='1'/%3E%3Cg transform='rotate(30)'%3E%3Crect x='10' y='-58' width='24' height='24' fill='none' stroke='%23E0A458' stroke-width='1'/%3E%3C/g%3E%3Ctext x='-34' y='-8' fill='%235C5F5B'%3Ef(x)%3C/text%3E%3Ctext x='34' y='4' fill='%235C5F5B'%3EF(Rx)%3C/text%3E%3Ctext x='0' y='30' font-size='13' fill='%23E0A458'%3Ef(Rx) %E2%89%88 Rf(x)%3C/text%3E%3C/g%3E%3Cline x1='90' y1='0' x2='90' y2='160' stroke='%23262A2E' stroke-width='1' stroke-dasharray='2 6'/%3E%3C/svg%3E");
+  }
+</style>
 </head>
-<body>
+<body class="margin-art">
 
 <header>
   <nav class="wrap">
@@ -19,14 +25,8 @@
       <li><a href="projects.html">Projects</a></li>
       <li><a href="research.html">Research</a></li>
       <li><a href="publications.html">Publications</a></li>
-      <li><a href="notebook.html">Notebook</a></li>
-      <li class="nav-dropdown">
-        <a href="gallery.html">Lab</a>
-        <div class="nav-dropdown-menu">
-          <a href="gallery.html">Architecture Gallery</a>
-          <a href="visualizations.html">Interactive Visualizations</a>
-        </div>
-      </li>
+      <li><a href="notebook.html">Research Notebook</a></li>
+      <li><a href="gallery.html">Lab</a></li>
       <li><a href="skills.html">Skills</a></li>
       <li><a href="resume.html">Resume</a></li>
       <li><a href="contact.html">Contact</a></li>
@@ -40,13 +40,14 @@
 
   <section class="wrap page-header">
     <div class="page-eyebrow">About</div>
-    <h1 class="page-title">From aerial imagery to agentic systems.</h1>
+    <h1 class="page-title">From mathematical modeling to intelligent AI systems.</h1>
     <p class="page-sub">
-      A year into research, one clear direction: build systems that reason, not just recognize.
+      Researching, building, and evaluating AI systems across computer vision, enterprise AI, and
+      agentic systems.
     </p>
   </section>
 
-  <section class="wrap thesis">
+  <section class="wrap thesis" style="padding-top:0; border-top:none;">
     <p>
       I started in computer vision — <strong>oriented object detection</strong> for aerial and remote
       sensing imagery, the kind of problem where a bounding box has to rotate with the object instead
@@ -63,11 +64,9 @@
       agentic orchestration.
     </p>
     <p>
-      Building intelligent systems across computer vision, enterprise AI, and agentic systems — GenAI
-      isn't a departure from what I've been doing, it's an expansion of it. The same instinct that made
-      oriented detection interesting to me (systems that model something more precisely than the
-      obvious approach) is what pulls me
-      toward agents: systems that don't just retrieve or classify, but plan, reason, and act.
+      GenAI feels like a continuation of that work more than a new direction — the same interest in
+      systems that model things precisely instead of taking the obvious shortcut is what draws me to
+      agents now: systems that plan and reason instead of just retrieving or classifying.
     </p>
   </section>
 
@@ -86,10 +85,10 @@
       <span class="skill-tag">Applied Mathematics</span>
     </div>
 
-    <div class="section-head">
+    <div class="section-head" style="margin-top:8px;">
       <h2 class="section-title" style="font-size:22px;">Research Philosophy</h2>
     </div>
-    <p class="callout">
+    <p style="font-size:15.5px; color:var(--ink-dim); max-width:680px; font-style:italic; border-left:2px solid var(--accent); padding-left:20px;">
       I approach AI research by combining mathematical understanding, empirical experimentation, and
       engineering practice. Rather than treating models as black boxes, I focus on understanding their
       underlying mechanisms, evaluating their behavior experimentally, and translating research
@@ -98,22 +97,68 @@
   </section>
 
   <!-- ================= MATHEMATICS → AI ================= -->
-  <section class="wrap">
+  <section class="wrap margin-figure-host">
+    <div class="margin-figure right" aria-hidden="true">
+      <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+        <g fill="none" stroke="#5FA8D3" stroke-width="1">
+          <line x1="60" y1="20" x2="20" y2="60"/>
+          <line x1="60" y1="20" x2="100" y2="60"/>
+          <line x1="60" y1="20" x2="60" y2="70"/>
+          <line x1="20" y1="60" x2="60" y2="100"/>
+          <line x1="100" y1="60" x2="60" y2="100"/>
+          <line x1="20" y1="60" x2="100" y2="60" stroke="#E0A458" stroke-dasharray="2 4"/>
+        </g>
+        <circle cx="60" cy="20" r="4" fill="#5FA8D3"/>
+        <circle cx="20" cy="60" r="4" fill="#5FA8D3"/>
+        <circle cx="100" cy="60" r="4" fill="#E0A458"/>
+        <circle cx="60" cy="100" r="4" fill="#5FA8D3"/>
+        <circle cx="60" cy="70" r="3" fill="#5FA8D3" fill-opacity="0.5"/>
+      </svg>
+    </div>
     <div class="section-head">
       <h2 class="section-title" style="font-size:22px;">Mathematics → AI</h2>
     </div>
-    <p style="font-size:14px; color:var(--ink-dim); max-width:640px; margin-bottom:20px;">
+    <p style="font-size:14px; color:var(--ink-dim); max-width:640px; margin-bottom:32px;">
       A PhD in Mathematics shapes how I approach AI research — not as a separate qualification, but
-      as the foundation underneath it.
+      as the foundation underneath it. Each stage below fed directly into the next.
     </p>
-    <div class="timeline">
-      <div class="tl-item"><div class="tl-label">Mathematical Modeling</div></div>
-      <div class="tl-item"><div class="tl-label">Optimization</div></div>
-      <div class="tl-item"><div class="tl-label">Geometry</div></div>
-      <div class="tl-item"><div class="tl-label">Graph Theory</div></div>
-      <div class="tl-item"><div class="tl-label">Image Processing</div></div>
-      <div class="tl-item"><div class="tl-label">Deep Learning</div></div>
-      <div class="tl-item" style="padding-bottom:0;"><div class="tl-label">Computer Vision</div></div>
+
+    <div class="math-ai-flow">
+      <div class="math-ai-step">
+        <div class="mas-num">01</div>
+        <div class="mas-title">Mathematical Modeling</div>
+        <div class="mas-desc">PhD research in mathematical modeling and scientific computing — the discipline of representing a real problem precisely before trying to solve it.</div>
+      </div>
+      <div class="math-ai-step">
+        <div class="mas-num">02</div>
+        <div class="mas-title">Optimization</div>
+        <div class="mas-desc">The mathematics behind how every model in this portfolio actually learns — gradient descent, loss formulation, and the trade-offs in between.</div>
+      </div>
+      <div class="math-ai-step">
+        <div class="mas-num">03</div>
+        <div class="mas-title">Geometry</div>
+        <div class="mas-desc">Rotation, coordinate transforms, and rotated IoU — the geometric core of oriented object detection, worked through in detail on the Research page.</div>
+      </div>
+      <div class="math-ai-step">
+        <div class="mas-num">04</div>
+        <div class="mas-title">Graph Theory</div>
+        <div class="mas-desc">Combinatorics and symmetry applied outside AI too — Hridhayakamalam and Petal Graphs, independent generative-design work built on graph structures.</div>
+      </div>
+      <div class="math-ai-step">
+        <div class="mas-num">05</div>
+        <div class="mas-title">Image Processing</div>
+        <div class="mas-desc">Segmentation and feature extraction from my PhD work — CT-scan tissue segmentation and pollen grain classification, both published.</div>
+      </div>
+      <div class="math-ai-step">
+        <div class="mas-num">06</div>
+        <div class="mas-title">Deep Learning</div>
+        <div class="mas-desc">CNNs and transformer architectures as the learned counterpart to hand-designed features — where the math becomes a trainable system.</div>
+      </div>
+      <div class="math-ai-step" style="border-right:none;">
+        <div class="mas-num">07</div>
+        <div class="mas-title">Computer Vision → AI Systems</div>
+        <div class="mas-desc">Oriented object detection, agentic RAG, and TrainForge AI — mathematics and deep learning applied to systems people actually use.</div>
+      </div>
     </div>
   </section>
 
@@ -137,7 +182,7 @@
         <div class="pivot-col to">
           <h3>What I'm building toward</h3>
           <ul class="pivot-list">
-            <li>Applied Scientist / Research Engineer roles at product-based companies</li>
+            <li>Applied Scientist / Research Engineer roles</li>
             <li>Deeper agentic AI systems — multi-step reasoning, orchestration, evals</li>
             <li>Production-grade RAG beyond the enterprise prototype I've already shipped</li>
             <li>Model Context Protocol (MCP) — connecting LLMs to real tools and data</li>
@@ -163,7 +208,18 @@
   </section>
 
   <!-- ================= EDUCATION ================= -->
-  <section class="wrap">
+  <section class="wrap margin-figure-host">
+    <div class="margin-figure left" aria-hidden="true">
+      <svg viewBox="0 0 120 100" xmlns="http://www.w3.org/2000/svg">
+        <g fill="none" stroke="#5FA8D3" stroke-width="1">
+          <path d="M 10 40 L 60 20 L 110 40 L 60 60 Z"/>
+          <path d="M 30 48 L 30 68 Q 60 82 90 68 L 90 48" />
+        </g>
+        <circle cx="110" cy="40" r="2.5" fill="#E0A458"/>
+        <line x1="110" y1="40" x2="110" y2="66" stroke="#E0A458" stroke-width="1"/>
+        <circle cx="110" cy="70" r="3" fill="#E0A458"/>
+      </svg>
+    </div>
     <div class="section-head">
       <h2 class="section-title">Education</h2>
     </div>
@@ -191,6 +247,8 @@
       <a href="https://github.com/BrightonDJ" target="_blank" rel="noopener">GitHub ↗</a>
       <a href="tel:9986825798">+91 99868 25798</a>
       <a href="https://www.linkedin.com/in/brighton-d-1455b8153" target="_blank" rel="noopener">LinkedIn ↗</a>
+      <a href="https://scholar.google.com/citations?user=t0KGAxAAAAAJ&hl=en" target="_blank" rel="noopener">Google Scholar ↗</a>
+      <a href="https://orcid.org/0000-0001-9185-7453" target="_blank" rel="noopener">ORCID ↗</a>
     </div>
     <div class="footer-note">Tamil (native) · English (proficient)</div>
   </div>
