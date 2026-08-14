@@ -40,7 +40,7 @@
 
     <p class="lead">A conventional object detector usually represents an object using a horizontal bounding box. For many natural images, this is sufficient.</p>
     <p>But consider aerial imagery. A vehicle may appear at an arbitrary angle. A ship can be aligned diagonally with respect to the image. Buildings, aircraft, roads, and other elongated structures can have orientations that vary continuously.</p>
-    <p>A horizontal rectangle can still contain the object — but it may contain a significant amount of irrelevant background. That changes the detection problem.</p>
+    <p>A horizontal rectangle can still contain the object but it may contain a significant amount of irrelevant background. That changes the detection problem.</p>
 
     <h2>Horizontal versus oriented boxes</h2>
     <p>A conventional bounding box can be represented as</p>
@@ -61,7 +61,7 @@
     <h3>Evaluation</h3>
     <p>Overlap metrics need to consider the actual shape and orientation of the regions.</p>
 
-    <p>So oriented detection isn't ordinary detection with one extra number tacked on — it's a different geometric formulation of the localization problem entirely.</p>
+    <p>So oriented detection isn't ordinary detection with one extra number tacked on - it's a different geometric formulation of the localization problem entirely.</p>
 
     <h2>The angle problem</h2>
     <p>Angles introduce another interesting mathematical property. Consider θ = 1° and θ = 359°. Numerically, these values differ by 358°. Geometrically, however, the orientations are only 2° apart.</p>

@@ -259,12 +259,12 @@
       <h2 class="section-title" style="font-size:22px;">Research Timeline</h2>
     </div>
     <div class="timeline">
-      <div class="tl-item"><div class="tl-year">2022</div><div class="tl-label">Image processing &amp; CNN classification — PhD begins</div></div>
+      <div class="tl-item"><div class="tl-year">2022</div><div class="tl-label">Image processing &amp; CNN classification - PhD begins</div></div>
       <div class="tl-item"><div class="tl-year">2023</div><div class="tl-label">Image segmentation &amp; mathematical modelling</div></div>
-      <div class="tl-item"><div class="tl-year">2024</div><div class="tl-label">Pollen grain classification published — CIS 2024</div></div>
-      <div class="tl-item"><div class="tl-year">2025</div><div class="tl-label">Plant tissue segmentation published — CompCom 2025 · PhD completed</div></div>
-      <div class="tl-item"><div class="tl-year">2025</div><div class="tl-label">Industrial AI Research — Oriented Object Detection &amp; Aerial Vision</div></div>
-      <div class="tl-item"><div class="tl-year">2026</div><div class="tl-label">Enterprise AI — Agentic RAG &amp; AI Platform Engineering</div></div>
+      <div class="tl-item"><div class="tl-year">2024</div><div class="tl-label">Pollen grain classification published - CIS 2024</div></div>
+      <div class="tl-item"><div class="tl-year">2025</div><div class="tl-label">Plant tissue segmentation published - CompCom 2025 · PhD completed</div></div>
+      <div class="tl-item"><div class="tl-year">2025</div><div class="tl-label">Industrial AI Research - Oriented Object Detection &amp; Aerial Vision</div></div>
+      <div class="tl-item"><div class="tl-year">2026</div><div class="tl-label">Enterprise AI - Agentic RAG &amp; AI Platform Engineering</div></div>
     </div>
   </section>
 
@@ -286,7 +286,7 @@
       </div>
       <div class="research-block">
         <h4>Motivation</h4>
-        <p>Axis-aligned detectors under- or over-include background when objects appear at arbitrary angles — common in aerial and satellite imagery. Oriented detection recovers the true extent and heading of each object, which matters for downstream geo-intelligence tasks.</p>
+        <p>Axis-aligned detectors under- or over-include background when objects appear at arbitrary angles, which is common in aerial and satellite imagery. Oriented detection recovers the true extent and heading of each object, which matters for downstream geo-intelligence tasks.</p>
       </div>
       <div class="research-block">
         <h4>Methodology</h4>
@@ -342,7 +342,7 @@
     </div>
     <p style="font-size:14.5px; color:var(--ink-dim); max-width:680px; margin-bottom:24px;">
       Representative methods I've studied and analyzed in depth while working on aerial object
-      detection research — the ideas below informed my analysis even where a given method wasn't
+      detection research. The ideas below informed my analysis even where a given method wasn't
       used directly.
     </p>
 
@@ -374,7 +374,7 @@
         <h5>Limitations</h5>
         <p>Discretizing the rotation group introduces quantization error at angles between sampled orientations; added compute cost from multi-orientation channels.</p>
       </div>
-      <div class="model-insight">What I learned: equivariance is a structural property of the network, not a training-time trick — it holds even on unseen orientations.</div>
+      <div class="model-insight">What I learned: Equivariance is a structural property of the network, not a training-time trick. It holds even on unseen orientations.</div>
     </div>
 
     <div class="model-card">
@@ -392,7 +392,7 @@
         <h5>Geometric Optimization &amp; Loss</h5>
         <p>Loss combines classification loss with a smooth-L1 (or similar) regression loss over the 5 box parameters, with careful handling near the angle boundary to avoid the discontinuity where θ wraps from 180° back to 0°.</p>
       </div>
-      <div class="model-insight">What I learned: a lightweight midpoint offset representation for proposals keeps the two-stage pipeline efficient while still supporting arbitrary orientation.</div>
+      <div class="model-insight">What I learned: A lightweight midpoint offset representation for proposals keeps the two-stage pipeline efficient while still supporting arbitrary orientation.</div>
     </div>
 
     <div class="model-card">
@@ -403,37 +403,37 @@
       </div>
       <div class="model-block">
         <h5>Direction-Aware Features &amp; Context Aggregation</h5>
-        <p>Strip kernels are applied along multiple directions, aggregating context along the likely long axis of the target — giving the network a head start on orientation before any explicit angle prediction happens.</p>
+        <p>Strip kernels are applied along multiple directions, aggregating context along the likely long axis of the target, giving the network a head start on orientation before any explicit angle prediction happens.</p>
       </div>
       <div class="model-block">
         <h5>Attention &amp; Feature Interaction</h5>
         <p>Attention layers combine the directional strip features, letting the model weight which orientation's context is most informative for a given region.</p>
       </div>
-      <div class="model-insight">What I learned: shaping the receptive field to match object geometry can reduce reliance on the detection head to recover orientation from scratch.</div>
+      <div class="model-insight">What I learned: Shaping the receptive field to match object geometry can reduce reliance on the detection head to recover orientation from scratch.</div>
     </div>
 
     <div class="model-card">
       <div class="model-top"><span class="model-name">Spatial Transform Decoupling (STD)</span><span class="model-year">Studied method</span></div>
       <div class="model-block">
         <h5>Spatial Transformation &amp; Coordinate Mapping</h5>
-        <p>Applies a learned spatial transform to map features into a canonical (de-rotated) coordinate frame before further processing — conceptually related to a Spatial Transformer Network, but specialized for oriented-box prediction.</p>
+        <p>Applies a learned spatial transform to map features into a canonical (de-rotated) coordinate frame before further processing. Conceptually, it is related to a Spatial Transformer Network, but specialized for oriented-box prediction.</p>
       </div>
       <div class="model-block">
         <h5>Decoupled Representation</h5>
-        <p>Classification and localization are computed from separate transformed feature branches rather than one shared representation, since the two tasks benefit from different spatial invariances — classification wants rotation-invariant features, localization needs rotation-equivariant ones.</p>
+        <p>Classification and localization are computed from separate transformed feature branches rather than one shared representation, since the two tasks benefit from different spatial invariances, classification wants rotation-invariant features, localization needs rotation-equivariant ones.</p>
       </div>
       <div class="model-block">
         <h5>Localization, Classification &amp; Attention</h5>
         <p>Each decoupled branch uses its own attention mechanism tuned to its task, then the outputs are recombined into a final oriented box and class prediction.</p>
       </div>
-      <div class="model-insight">What I learned: decoupling classification and localization into separate spatial representations is a principled way to resolve a representational conflict between two tasks that want different invariances from the same features.</div>
+      <div class="model-insight">What I learned: Decoupling classification and localization into separate spatial representations is a principled way to resolve a representational conflict between two tasks that want different invariances from the same features.</div>
     </div>
 
     <div class="model-card">
       <div class="model-top"><span class="model-name">Oriented-DETR</span><span class="model-year">Transformer set-prediction detector</span></div>
       <div class="model-block">
         <h5>Transformer Encoder–Decoder</h5>
-        <p>Treats detection as direct set prediction: a transformer encoder processes image features, and a decoder attends over a fixed set of learned object queries to predict boxes and classes — no anchors, no NMS.</p>
+        <p>Treats detection as direct set prediction: A transformer encoder processes image features, and a decoder attends over a fixed set of learned object queries to predict boxes and classes. No anchors, No NMS.</p>
       </div>
       <div class="model-block">
         <h5>Hungarian Matching &amp; Set Prediction</h5>
@@ -445,7 +445,7 @@
         <h5>Positional Encoding &amp; Self-Attention</h5>
         <p>Since transformers have no inherent notion of spatial position, positional encodings inject location information into the features; self-attention lets every query attend to the full image context.</p>
       </div>
-      <div class="model-insight">What I learned: extending DETR's set-prediction formulation to rotated boxes removes anchor-design choices entirely — an appealing direction for future detection heads.</div>
+      <div class="model-insight">What I learned: Extending DETR's set-prediction formulation to rotated boxes removes anchor-design choices entirely. An appealing direction for future detection heads.</div>
     </div>
   </section>
 
@@ -467,7 +467,7 @@
       <span class="label">Mathematical Concepts Explored</span>
     </div>
     <p style="font-size:14.5px; color:var(--ink-dim); max-width:680px; margin-bottom:24px;">
-      A mathematics-first look at the ideas underneath oriented detection and transformer architectures —
+      A mathematics-first look at the ideas underneath oriented detection and transformer architectures -
       the intuition and formulation behind each, not a full derivation.
     </p>
 
@@ -475,86 +475,86 @@
 
       <div class="concept-card">
         <h5>Rotation Equivariance</h5>
-        <p><b>Intuition:</b> a function is rotation-equivariant if rotating the input rotates the output the same way, rather than the output changing unpredictably.</p>
+        <p><b>Intuition:</b> A function is rotation-equivariant if rotating the input rotates the output the same way, rather than the output changing unpredictably.</p>
         <div class="eq">Φ(g·x) = g·Φ(x)</div>
-        <p class="app">Application: rotation-equivariant backbones (ReDet) generalize across object orientations with fewer training examples.</p>
+        <p class="app">Application: Rotation-equivariant backbones (ReDet) generalize across object orientations with fewer training examples.</p>
       </div>
 
       <div class="concept-card">
         <h5>Attention</h5>
-        <p><b>Intuition:</b> lets a model weigh how relevant every other position is to the current one, instead of only looking at a fixed local neighborhood.</p>
+        <p><b>Intuition:</b> Lets a model weigh how relevant every other position is to the current one, instead of only looking at a fixed local neighborhood.</p>
         <div class="eq">Attn(Q,K,V) = softmax(QKᵀ/√d) V</div>
-        <p class="app">Application: transformer detection heads (STD, Oriented-DETR) use attention to relate object parts across the whole image.</p>
+        <p class="app">Application: Transformer detection heads (STD, Oriented-DETR) use attention to relate object parts across the whole image.</p>
       </div>
 
       <div class="concept-card">
         <h5>Transformer Mathematics</h5>
-        <p><b>Intuition:</b> combines self-attention with position-wise feed-forward layers, processing all tokens in parallel rather than sequentially.</p>
+        <p><b>Intuition:</b> Combines self-attention with position-wise feed-forward layers, processing all tokens in parallel rather than sequentially.</p>
         <div class="eq">z = LayerNorm(x + Attn(x)); out = LayerNorm(z + FFN(z))</div>
-        <p class="app">Application: the encoder-decoder backbone of Oriented-DETR and the decoupled heads in STD.</p>
+        <p class="app">Application: The encoder-decoder backbone of Oriented-DETR and the decoupled heads in STD.</p>
       </div>
 
       <div class="concept-card">
         <h5>Rotated Bounding Boxes</h5>
-        <p><b>Intuition:</b> extending an axis-aligned box with an angle parameter lets it hug an object's true orientation instead of its worst-case bounding rectangle.</p>
+        <p><b>Intuition:</b> Extending an axis-aligned box with an angle parameter lets it hug an object's true orientation instead of its worst-case bounding rectangle.</p>
         <div class="eq">box = (x, y, w, h, θ)</div>
-        <p class="app">Application: core representation for ORCNN and every oriented-detection method on this page.</p>
+        <p class="app">Application: Core representation for ORCNN and every oriented-detection method on this page.</p>
       </div>
 
       <div class="concept-card">
         <h5>Optimization</h5>
-        <p><b>Intuition:</b> training adjusts model parameters to minimize a loss function via gradient descent, following the direction of steepest decrease.</p>
+        <p><b>Intuition:</b> Training adjusts model parameters to minimize a loss function via gradient descent, following the direction of steepest decrease.</p>
         <div class="eq">θ ← θ − η ∇<sub>θ</sub> L(θ)</div>
-        <p class="app">Application: every model here is trained by minimizing a combined classification + localization loss.</p>
+        <p class="app">Application: Every model here is trained by minimizing a combined classification + localization loss.</p>
       </div>
 
       <div class="concept-card">
         <h5>Hungarian Matching</h5>
-        <p><b>Intuition:</b> finds the lowest-cost one-to-one assignment between two sets — here, predicted boxes and ground-truth boxes — so each prediction is scored against exactly one target.</p>
+        <p><b>Intuition:</b> Finds the lowest-cost one-to-one assignment between two sets. Here, predicted boxes and ground-truth boxes, so each prediction is scored against exactly one target.</p>
         <div class="eq">min<sub>σ</sub> Σᵢ Cost(yᵢ, ŷ<sub>σ(i)</sub>)</div>
         <p class="app">Application: Oriented-DETR's set-prediction training, replacing anchor matching and NMS.</p>
       </div>
 
       <div class="concept-card">
         <h5>Feature Fusion</h5>
-        <p><b>Intuition:</b> combines information from multiple feature branches or scales into one representation, since no single branch captures everything a detector needs.</p>
+        <p><b>Intuition:</b> Combines information from multiple feature branches or scales into one representation, since no single branch captures everything a detector needs.</p>
         <div class="eq">f = α·f₁ + (1−α)·f₂ &nbsp; or &nbsp; f = Concat(f₁, f₂)</div>
         <p class="app">Application: Strip R-CNN's directional feature aggregation; STD's recombination of decoupled branches.</p>
       </div>
 
       <div class="concept-card">
         <h5>Multi-Scale Learning</h5>
-        <p><b>Intuition:</b> objects appear at very different sizes in aerial imagery, so features are extracted and combined across multiple resolutions rather than one fixed scale.</p>
+        <p><b>Intuition:</b> Objects appear at very different sizes in aerial imagery, so features are extracted and combined across multiple resolutions rather than one fixed scale.</p>
         <div class="eq">P<sub>l</sub> = Conv(Upsample(P<sub>l+1</sub>) + C<sub>l</sub>)</div>
-        <p class="app">Application: feature pyramid-style backbones used in several of the detection architectures discussed here.</p>
+        <p class="app">Application: Feature pyramid-style backbones used in several of the detection architectures discussed here.</p>
       </div>
 
       <div class="concept-card">
         <h5>Loss Functions</h5>
-        <p><b>Intuition:</b> a single scalar that measures how wrong a prediction is, combining separate penalties for classification and box localization into one trainable objective.</p>
+        <p><b>Intuition:</b> A single scalar that measures how wrong a prediction is, combining separate penalties for classification and box localization into one trainable objective.</p>
         <div class="eq">L = L<sub>cls</sub> + λ · L<sub>box</sub></div>
-        <p class="app">Application: joint training objective across ORCNN, STD, and Oriented-DETR.</p>
+        <p class="app">Application: Joint training objective across ORCNN, STD, and Oriented-DETR.</p>
       </div>
 
       <div class="concept-card">
         <h5>Positional Encoding</h5>
-        <p><b>Intuition:</b> injects information about a token's position into its feature vector, since attention itself has no built-in sense of order or location.</p>
+        <p><b>Intuition:</b> Injects information about a token's position into its feature vector, since attention itself has no built-in sense of order or location.</p>
         <div class="eq">PE(pos,2i) = sin(pos/10000^(2i/d))</div>
-        <p class="app">Application: positional information is needed for transformer-based detection architectures to retain spatial relationships; Oriented-DETR incorporates positional information as part of its transformer formulation.</p>
+        <p class="app">Application: Positional information is needed for transformer-based detection architectures to retain spatial relationships; Oriented-DETR incorporates positional information as part of its transformer formulation.</p>
       </div>
 
       <div class="concept-card">
         <h5>Geometric Transformations</h5>
-        <p><b>Intuition:</b> operations like rotation, scaling, and translation that map points from one coordinate frame to another while preserving (or predictably changing) structure.</p>
+        <p><b>Intuition:</b> Operations like rotation, scaling, and translation that map points from one coordinate frame to another while preserving (or predictably changing) structure.</p>
         <div class="eq">x' = R(θ)·x + t</div>
         <p class="app">Application: STD's spatial transform layer; data augmentation for rotation-robust training.</p>
       </div>
 
       <div class="concept-card">
         <h5>Coordinate Systems</h5>
-        <p><b>Intuition:</b> choosing the right frame of reference (image, object-centric, or canonical/de-rotated) makes downstream computation simpler or more robust.</p>
+        <p><b>Intuition:</b> Choosing the right frame of reference (image, object-centric, or canonical/de-rotated) makes downstream computation simpler or more robust.</p>
         <div class="eq">x<sub>canonical</sub> = R(−θ)·(x<sub>image</sub> − c)</div>
-        <p class="app">Application: mapping oriented objects to a canonical frame before classification, as in STD.</p>
+        <p class="app">Application: Mapping oriented objects to a canonical frame before classification, as in STD.</p>
       </div>
 
     </div>
@@ -569,17 +569,17 @@
     <div class="research-card">
       <div class="research-block">
         <h4>Context</h4>
-        <p>My computer vision research has primarily involved aerial and remote sensing imagery, where object scale, orientation, density, and image resolution introduce challenges that differ from conventional natural image detection — extreme scale variation, dense small objects, and domain-specific noise like cloud cover and sensor artifacts. Most of this work sits at the Centre for Airborne Systems (CABS) and in an aerospace &amp; defence industrial research engagement.</p>
+        <p>My computer vision research has primarily involved aerial and remote sensing imagery, where object scale, orientation, density, and image resolution introduce challenges that differ from conventional natural image detection like extreme scale variation, dense small objects, and domain-specific noise like cloud cover and sensor artifacts. Most of this work sits at the Defence, Research and Development Organisation (DRDO) and in an aerospace &amp; defence industrial research engagement.</p>
       </div>
       <div class="research-block">
         <h4>Areas of work</h4>
         <ul>
-          <li>Aerial imagery &amp; satellite imagery analysis</li>
-          <li>Geo-intelligence — extracting structured signal from raw imagery</li>
-          <li>Image annotation &amp; dataset engineering for remote sensing datasets</li>
-          <li>Object orientation estimation and image registration</li>
-          <li>Large image inference — tiling and stitching for high-resolution aerial frames</li>
-          <li>Geospatial analysis workflows</li>
+          <li> Aerial imagery &amp; satellite imagery analysis</li>
+          <li> Geo-intelligence - extracting structured signal from raw imagery</li>
+          <li> Image annotation &amp; dataset engineering for remote sensing datasets</li>
+          <li> Object orientation estimation and image registration</li>
+          <li> Large image inference - tiling and stitching for high-resolution aerial frames</li>
+          <li> Geospatial analysis workflows</li>
         </ul>
       </div>
     </div>
@@ -599,7 +599,7 @@
       </div>
       <div class="research-block"><h4>Problem</h4><p>Manual pollen identification for palynology is slow and requires specialist expertise; automating classification from microscope imagery reduces that bottleneck.</p></div>
       <div class="research-block"><h4>Method</h4><p>Adapted a LeNet-style convolutional neural network architecture for multi-class pollen grain classification.</p></div>
-      <div class="research-block"><h4>CNN</h4><p>TensorFlow/Keras implementation — convolutional feature extraction followed by fully connected classification layers.</p></div>
+      <div class="research-block"><h4>CNN</h4><p>TensorFlow/Keras implementation - convolutional feature extraction followed by fully connected classification layers.</p></div>
       <div class="research-block"><h4>Dataset</h4><p>Curated and preprocessed a labeled pollen grain image dataset spanning multiple species classes.</p></div>
       <div class="research-block"><h4>Results</h4><p>Achieved reliable multi-class classification accuracy, validated against held-out test data.</p></div>
       <div class="research-block"><h4>Publication</h4><p>Brighton, D. et al. (2025). Classification of Pollen Grains Using Convolutional Neural Networks. CIS 2024, LNNS vol 1275, Springer. <a href="https://doi.org/10.1007/978-981-96-2694-6_17" target="_blank" rel="noopener" style="color:var(--accent);">DOI ↗</a></p></div>
@@ -607,7 +607,7 @@
 
     <div class="research-card">
       <div class="research-top">
-        <span class="research-title">Plant Tissue Segmentation</span>
+        <span class="research-title">3D SPlant Tissue Segmentation</span>
         <span class="research-tag" style="background:rgba(224,164,88,0.12); color:var(--warm);">Published · CompCom 2025</span>
       </div>
       <div class="research-block"><h4>Problem</h4><p>Identifying cavities from stem borer beetle damage in Mangifera indica L. (mango) tissue required a repeatable, image-based segmentation approach rather than manual inspection.</p></div>
@@ -620,7 +620,7 @@
 
     <div class="research-card">
       <div class="research-top">
-        <span class="research-title">Hridhayakamalam — Graph-Based Pattern Generator</span>
+        <span class="research-title">Hridhayakamalam: Graph-Based Pattern Generator</span>
         <span class="research-tag">Independent research</span>
       </div>
       <div class="research-block"><h4>Graph Theory</h4><p>Represents traditional South Indian Kolam patterns as graph structures, with vertices and edges encoding pattern connectivity.</p></div>
@@ -632,7 +632,7 @@
 
     <div class="research-card">
       <div class="research-top">
-        <span class="research-title">Petal Graphs — Symmetric Graph Generation</span>
+        <span class="research-title">Petal Graphs: Symmetric Graph Generation</span>
         <span class="research-tag">Independent research</span>
       </div>
       <div class="research-block"><h4>Geometry</h4><p>Generates symmetric circular "petal" patterns from configurable width parameters.</p></div>

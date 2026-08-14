@@ -69,8 +69,8 @@
     <p>where (x,y) describe position, (w,h) describe dimensions, and θ represents orientation. This small addition changes the geometry of the problem considerably. The model must learn not only semantic information but also spatial relationships and orientation.</p>
 
     <h2>From geometry to learning</h2>
-    <p>This is one of the areas where my mathematical background became particularly useful. Questions about rotations, transformations, angles, intersections, optimization, and geometric representations are not separate from machine learning — they are part of the problem itself.</p>
-    <p>For example, when two rotated bounding boxes are compared, their overlap is no longer a simple axis-aligned rectangle intersection. The geometry of the rotated regions becomes important. Similarly, angle representation introduces questions about periodicity — an angle near 0° and one near 360° may be numerically far apart while being geometrically close. These are mathematical issues that directly influence model design and loss functions.</p>
+    <p>This is one of the areas where my mathematical background became particularly useful. Questions about rotations, transformations, angles, intersections, optimization, and geometric representations are not separate from machine learning and they are part of the problem itself.</p>
+    <p>For example, when two rotated bounding boxes are compared, their overlap is no longer a simple axis-aligned rectangle intersection. The geometry of the rotated regions becomes important. Similarly, angle representation introduces questions about periodicity. An angle near 0° and one near 360° may be numerically far apart while being geometrically close. These are mathematical issues that directly influence model design and loss functions.</p>
 
     <h2>Mathematics does not replace experimentation</h2>
     <p>At the same time, mathematical elegance is not sufficient. A formulation can be theoretically attractive and still perform poorly in practice. That is why I approach AI research through three connected layers:</p>
@@ -83,7 +83,7 @@
 
     <div class="article-takeaway">
       <h4>Research takeaway</h4>
-      <p>AI models can be treated as mathematical and computational systems rather than black boxes. Understanding the geometry, representations, assumptions, and optimization mechanisms behind a model makes it easier to evaluate its behaviour — and to identify where a different approach may be necessary.</p>
+      <p>AI models can be treated as mathematical and computational systems rather than black boxes. Understanding the geometry, representations, assumptions, and optimization mechanisms behind a model makes it easier to evaluate its behaviour and to identify where a different approach may be necessary.</p>
     </div>
 
     <div class="article-nav">
